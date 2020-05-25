@@ -2,10 +2,7 @@
 // this is an auto generated file. This will be overwritten
 
 export const createGithub = /* GraphQL */ `
-  mutation CreateGithub(
-    $input: CreateGithubInput!
-    $condition: ModelGithubConditionInput
-  ) {
+  mutation CreateGithub($input: CreateGithubInput!, $condition: ModelGithubConditionInput) {
     createGithub(input: $input, condition: $condition) {
       id
       datetime
@@ -20,12 +17,9 @@ export const createGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateGithub = /* GraphQL */ `
-  mutation UpdateGithub(
-    $input: UpdateGithubInput!
-    $condition: ModelGithubConditionInput
-  ) {
+  mutation UpdateGithub($input: UpdateGithubInput!, $condition: ModelGithubConditionInput) {
     updateGithub(input: $input, condition: $condition) {
       id
       datetime
@@ -40,12 +34,9 @@ export const updateGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteGithub = /* GraphQL */ `
-  mutation DeleteGithub(
-    $input: DeleteGithubInput!
-    $condition: ModelGithubConditionInput
-  ) {
+  mutation DeleteGithub($input: DeleteGithubInput!, $condition: ModelGithubConditionInput) {
     deleteGithub(input: $input, condition: $condition) {
       id
       datetime
@@ -60,12 +51,9 @@ export const deleteGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createTwitter = /* GraphQL */ `
-  mutation CreateTwitter(
-    $input: CreateTwitterInput!
-    $condition: ModelTwitterConditionInput
-  ) {
+  mutation CreateTwitter($input: CreateTwitterInput!, $condition: ModelTwitterConditionInput) {
     createTwitter(input: $input, condition: $condition) {
       id
       datetime
@@ -75,12 +63,9 @@ export const createTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateTwitter = /* GraphQL */ `
-  mutation UpdateTwitter(
-    $input: UpdateTwitterInput!
-    $condition: ModelTwitterConditionInput
-  ) {
+  mutation UpdateTwitter($input: UpdateTwitterInput!, $condition: ModelTwitterConditionInput) {
     updateTwitter(input: $input, condition: $condition) {
       id
       datetime
@@ -90,12 +75,9 @@ export const updateTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteTwitter = /* GraphQL */ `
-  mutation DeleteTwitter(
-    $input: DeleteTwitterInput!
-    $condition: ModelTwitterConditionInput
-  ) {
+  mutation DeleteTwitter($input: DeleteTwitterInput!, $condition: ModelTwitterConditionInput) {
     deleteTwitter(input: $input, condition: $condition) {
       id
       datetime
@@ -105,4 +87,4 @@ export const deleteTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`

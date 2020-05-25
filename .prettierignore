@@ -1,3 +1,6 @@
 src/aws-exports.js
 amplify
+.cache
+node_modules
+public
 !/amplify/backend/api/lekoartsstats/schema.graphql

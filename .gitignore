@@ -3,6 +3,8 @@ public
 node_modules
 .idea
 .vscode
+.env
+.linaria-cache
 
 #amplify
 amplify/\#current-cloud-backend

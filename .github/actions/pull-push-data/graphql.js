@@ -1,4 +1,4 @@
-const gql = require("graphql-tag")
+const gql = require('graphql-tag')
 
 const GITHUB_QUERY = `
 query {
@@ -19,10 +19,7 @@ query {
 `
 
 const createGithub = gql`
-  mutation CreateGithub(
-    $input: CreateGithubInput!
-    $condition: ModelGithubConditionInput
-  ) {
+  mutation CreateGithub($input: CreateGithubInput!, $condition: ModelGithubConditionInput) {
     createGithub(input: $input, condition: $condition) {
       id
       datetime
@@ -37,13 +34,10 @@ const createGithub = gql`
       updatedAt
     }
   }
-`;
+`
 
 const createTwitter = gql`
-  mutation CreateTwitter(
-    $input: CreateTwitterInput!
-    $condition: ModelTwitterConditionInput
-  ) {
+  mutation CreateTwitter($input: CreateTwitterInput!, $condition: ModelTwitterConditionInput) {
     createTwitter(input: $input, condition: $condition) {
       id
       datetime
@@ -53,6 +47,6 @@ const createTwitter = gql`
       updatedAt
     }
   }
-`;
+`
 
 module.exports = { GITHUB_QUERY, createGithub, createTwitter }

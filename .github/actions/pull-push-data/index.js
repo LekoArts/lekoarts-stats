@@ -1,94 +1,94 @@
-require("cross-fetch/polyfill")
-const core = require("@actions/core");
-const axios = require("axios")
-const AWSAppSyncClient = require("aws-appsync").default
-const { GITHUB_QUERY, createGithub, createTwitter } = require("./graphql")
+require('cross-fetch/polyfill')
+const core = require('@actions/core')
+const axios = require('axios')
+const AWSAppSyncClient = require('aws-appsync').default
+const { GITHUB_QUERY, createGithub, createTwitter } = require('./graphql')
 
-const GITHUB_GRAPHQL_API = "https://api.github.com/graphql"
-const TWITTER_API = core.getInput("TWITTER_API", { required: true })
-const AWS_GRAPHQL_API = core.getInput("AWS_GRAPHQL_API", { required: true })
-const AWS_TOKEN = core.getInput("AWS_TOKEN", { required: true })
-const AWS_REGION = core.getInput("AWS_REGION", { required: true })
-const GITHUB_TOKEN = core.getInput("GITHUB_TOKEN", { required: true })
+const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
+const TWITTER_API = core.getInput('TWITTER_API', { required: true })
+const AWS_GRAPHQL_API = core.getInput('AWS_GRAPHQL_API', { required: true })
+const AWS_TOKEN = core.getInput('AWS_TOKEN', { required: true })
+const AWS_REGION = core.getInput('AWS_REGION', { required: true })
+const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN', { required: true })
 
 const awsClient = new AWSAppSyncClient({
   url: AWS_GRAPHQL_API,
   region: AWS_REGION,
   auth: {
-    type: "API_KEY",
+    type: 'API_KEY',
     apiKey: AWS_TOKEN,
   },
-  disableOffline: true
+  disableOffline: true,
 })
 
-async function fetchGithubData () {
+async function fetchGithubData() {
   try {
-    core.info("Fetching GitHub Data")
+    core.info('Fetching GitHub Data')
     const res = await axios({
       url: GITHUB_GRAPHQL_API,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `bearer ${GITHUB_TOKEN}`
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `bearer ${GITHUB_TOKEN}`,
       },
       data: {
         query: GITHUB_QUERY,
-      }
+      },
     })
-    core.info("Successfully fetched Github Data")
+    core.info('Successfully fetched Github Data')
 
     return res.data.data.search.nodes
-  } catch(err) {
+  } catch (err) {
     core.error(`[fetchGithubData]: ${err}`)
   }
 }
 
-async function fetchTwitterData () {
+async function fetchTwitterData() {
   try {
-    core.info("Fetching Twitter Data")
+    core.info('Fetching Twitter Data')
     const res = await axios({
       url: TWITTER_API,
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     })
-    core.info("Successfully fetched Twitter Data")
+    core.info('Successfully fetched Twitter Data')
 
     return res.data
-  } catch(err) {
+  } catch (err) {
     core.error(`[fetchTwitterData]: ${err}`)
   }
 }
 
-async function pushAWSGithub (input) {
+async function pushAWSGithub(input) {
   try {
-    core.info("Pushing Github Data to AWS")
+    core.info('Pushing Github Data to AWS')
 
     return await awsClient.mutate({
       mutation: createGithub,
       variables: {
         input,
-      }
+      },
     })
-  } catch(err) {
+  } catch (err) {
     core.error(`[pushAWSGithub]: ${err}`)
   }
 }
 
-async function pushAWSTwitter (input) {
+async function pushAWSTwitter(input) {
   try {
-    core.info("Pushing Twitter Data to AWS")
+    core.info('Pushing Twitter Data to AWS')
 
     return await awsClient.mutate({
       mutation: createTwitter,
       variables: {
         input,
-      }
+      },
     })
-  } catch(err) {
+  } catch (err) {
     core.error(`[pushAWSTwitter]: ${err}`)
   }
 }
@@ -99,7 +99,7 @@ async function run() {
 
   const now = new Date().toISOString()
 
-  const repos = github.map(g => ({
+  const repos = github.map((g) => ({
     id: g.id,
     name: g.name,
     url: g.url,
@@ -120,7 +120,8 @@ async function run() {
 
   await pushAWSGithub(GITHUB_INPUT)
   await pushAWSTwitter(TWITTER_INPUT)
-  core.info("Done 🎉")
+
+  core.info('Done 🎉')
 }
 
 run()

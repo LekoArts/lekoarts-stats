@@ -17,7 +17,7 @@ export const onCreateGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const onUpdateGithub = /* GraphQL */ `
   subscription OnUpdateGithub {
     onUpdateGithub {
@@ -34,7 +34,7 @@ export const onUpdateGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const onDeleteGithub = /* GraphQL */ `
   subscription OnDeleteGithub {
     onDeleteGithub {
@@ -51,7 +51,7 @@ export const onDeleteGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const onCreateTwitter = /* GraphQL */ `
   subscription OnCreateTwitter {
     onCreateTwitter {
@@ -63,7 +63,7 @@ export const onCreateTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const onUpdateTwitter = /* GraphQL */ `
   subscription OnUpdateTwitter {
     onUpdateTwitter {
@@ -75,7 +75,7 @@ export const onUpdateTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const onDeleteTwitter = /* GraphQL */ `
   subscription OnDeleteTwitter {
     onDeleteTwitter {
@@ -87,4 +87,4 @@ export const onDeleteTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`

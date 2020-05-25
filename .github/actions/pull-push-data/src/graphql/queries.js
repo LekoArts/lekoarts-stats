@@ -17,13 +17,9 @@ export const getGithub = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const listGithubs = /* GraphQL */ `
-  query ListGithubs(
-    $filter: ModelGithubFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListGithubs($filter: ModelGithubFilterInput, $limit: Int, $nextToken: String) {
     listGithubs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -41,7 +37,7 @@ export const listGithubs = /* GraphQL */ `
       nextToken
     }
   }
-`;
+`
 export const getTwitter = /* GraphQL */ `
   query GetTwitter($id: ID!) {
     getTwitter(id: $id) {
@@ -53,13 +49,9 @@ export const getTwitter = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const listTwitters = /* GraphQL */ `
-  query ListTwitters(
-    $filter: ModelTwitterFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListTwitters($filter: ModelTwitterFilterInput, $limit: Int, $nextToken: String) {
     listTwitters(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -72,4 +64,4 @@ export const listTwitters = /* GraphQL */ `
       nextToken
     }
   }
-`;
+`
