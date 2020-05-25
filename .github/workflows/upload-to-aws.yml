@@ -4,7 +4,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: 0 12 * * *
+    - cron: "0 12 * * *"
 jobs:
   pushAndPull:
     name: Push and Pull Data
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Push and Pull Data
         uses: ./.github/actions/pull-push-data
-        env:
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TWITTER_API: ${{ secrets.TWITTER_API }}
           AWS_GRAPHQL_API: ${{ secrets.AWS_GRAPHQL_API }}
