@@ -1,0 +1,3 @@
+src/aws-exports.js
+amplify
+!/amplify/backend/api/lekoartsstats/schema.graphql

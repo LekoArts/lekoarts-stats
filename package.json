@@ -1,0 +1,14 @@
+{
+  "name": "lekoarts-stats",
+  "version": "1.0.0",
+  "private": true,
+  "author": "LekoArts <hello@lekoarts.de> (@lekoarts_de)",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write '**/**/*.{js,jsx,json,md,graphql}'"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
+}
