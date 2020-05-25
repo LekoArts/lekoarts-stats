@@ -4,7 +4,7 @@ const axios = require("axios")
 const AWSAppSyncClient = require("aws-appsync").default
 const { GITHUB_QUERY, createGithub, createTwitter } = require("./graphql")
 
-const GITHUB_GRAPHQL_API = core.getInput("GITHUB_GRAPHQL_API", { required: true })
+const GITHUB_GRAPHQL_API = "https://api.github.com/graphql"
 const TWITTER_API = core.getInput("TWITTER_API", { required: true })
 const AWS_GRAPHQL_API = core.getInput("AWS_GRAPHQL_API", { required: true })
 const AWS_TOKEN = core.getInput("AWS_TOKEN", { required: true })

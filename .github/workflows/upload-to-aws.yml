@@ -1,8 +1,10 @@
+name: Upload to AWS
 on:
   push:
+    branches:
+      - master
   schedule:
     - cron: 0 12 * * *
-name: Upload to AWS
 jobs:
   pushAndPull:
     name: Push and Pull Data
@@ -13,7 +15,6 @@ jobs:
         uses: ./.github/actions/pull-push-data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_GRAPHQL_API: ${{ secrets.GITHUB_GRAPHQL_API }}
           TWITTER_API: ${{ secrets.TWITTER_API }}
           AWS_GRAPHQL_API: ${{ secrets.AWS_GRAPHQL_API }}
           AWS_TOKEN: ${{ secrets.AWS_TOKEN }}
