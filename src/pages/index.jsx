@@ -2,8 +2,10 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { css } from 'linaria'
 import { LineChart, XAxis, YAxis, Line, CartesianGrid, Tooltip, Label, Legend } from 'recharts'
-import 'typeface-ibm-plex-mono'
+import { strokeColors } from '../styles/colors'
+import Dot from '../components/dot'
 import { globals } from '../styles/globals'
+import 'typeface-ibm-plex-mono'
 
 const header = css`
   padding: 1.5rem 2rem;
@@ -24,16 +26,7 @@ const footer = css`
   border-top: 1px solid var(--color-gray-100);
 `
 
-const colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']
+const strokeDasharray = ["2 4", "4 8", "1 2", "10 5", "8 3", "15 8", "30 10", "0"]
 
 const Index = ({ data }) => {
   const stars = data.github.nodes.flatMap(g => {
@@ -53,7 +46,7 @@ const Index = ({ data }) => {
         <a href="https://github.com/LekoArts/lekoarts-stats">GitHub</a>
       </header>
       <main>
-        <LineChart width={1200} height={400} data={stars}>
+        <LineChart width={1200} height={500} data={stars}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date">
             <Label value="Time" offset={0} position="insideBottom" />
@@ -64,7 +57,7 @@ const Index = ({ data }) => {
           <Legend />
           <Tooltip />
           {data.repos.group.map((r, index) => (
-            <Line dataKey={r.fieldValue} type="monotone" stroke={colorArray[index]} />
+            <Line dataKey={r.fieldValue} type="linear" strokeWidth={2} stroke={strokeColors[index]} strokeDasharray={strokeDasharray[index]} dot={<Dot color={strokeColors[index]} />} activeDot={<Dot color={strokeColors[index]} active />} />
           ))}
         </LineChart>
       </main>
