@@ -9,19 +9,22 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "format": "prettier --write '**/**/*.{js,jsx,json,md,graphql}'"
+    "format": "prettier --write '**/**/*.{js,jsx,json,md,graphql,css}'"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
   },
   "dependencies": {
+    "@nivo/line": "^0.61.1",
     "@urql/core": "^1.11.8",
+    "astroturf": "^0.10.4",
     "dotenv": "^8.2.0",
-    "gatsby": "^2.22.9",
-    "gatsby-plugin-linaria": "^2.0.0",
+    "gatsby": "^2.22.12",
+    "gatsby-plugin-astroturf": "^0.2.1",
+    "gatsby-plugin-lodash": "^3.3.2",
     "gatsby-plugin-react-helmet": "^3.3.2",
     "isomorphic-unfetch": "^3.0.0",
-    "linaria": "^2.0.0-alpha.1",
+    "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
