@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Webhook Trigger
-        uses: ./.github/actions/webhook
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+      - name: curl
+        uses: wei/curl@v1
+        with:
+          args: -X POST ${{ secrets.WEBHOOK_URL }}
