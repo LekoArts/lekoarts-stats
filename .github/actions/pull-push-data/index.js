@@ -40,7 +40,7 @@ async function fetchGithubData() {
 
     return res.data.data.search.nodes
   } catch (err) {
-    core.error(`[fetchGithubData]: ${err}`)
+    core.setFailed(`[fetchGithubData]: ${err}`)
   }
 }
 
@@ -59,7 +59,7 @@ async function fetchTwitterData() {
 
     return res.data
   } catch (err) {
-    core.error(`[fetchTwitterData]: ${err}`)
+    core.setFailed(`[fetchTwitterData]: ${err}`)
   }
 }
 
@@ -74,7 +74,7 @@ async function pushAWSGithub(input) {
       },
     })
   } catch (err) {
-    core.error(`[pushAWSGithub]: ${err}`)
+    core.setFailed(`[pushAWSGithub]: ${err}`)
   }
 }
 
@@ -89,7 +89,7 @@ async function pushAWSTwitter(input) {
       },
     })
   } catch (err) {
-    core.error(`[pushAWSTwitter]: ${err}`)
+    core.setFailed(`[pushAWSTwitter]: ${err}`)
   }
 }
 
