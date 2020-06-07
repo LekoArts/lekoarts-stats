@@ -8,6 +8,11 @@ const styles = css`
     font-size: 16px;
     border-radius: var(--radii);
   }
+  @media screen and (max-width: 900px) {
+    .slice {
+      font-size: 14px;
+    }
+  }
   .header {
     font-weight: 600;
     color: var(--color-black);
@@ -22,6 +27,7 @@ const styles = css`
     flex-direction: row;
     margin: 0.1rem 0;
     justify-content: space-between;
+    align-items: center;
   }
   .yFormatted {
     margin-left: 0.5rem;

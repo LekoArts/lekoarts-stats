@@ -43,6 +43,7 @@ html {
     --spacer-x: 1rem;
     --spacer-y: 0.75rem;
     --spacer-y-xl: 2rem;
+    --chartHeight: 400;
   }
   html {
     font-size: 16px;
