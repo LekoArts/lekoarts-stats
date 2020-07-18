@@ -9,7 +9,9 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "format": "prettier --write '**/**/*.{js,jsx,json,md,graphql,css}'"
+    "format": "prettier --write '**/**/*.{js,jsx,json,md,graphql,css}'",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
@@ -18,12 +20,15 @@
     "@nivo/line": "^0.61.1",
     "@urql/core": "^1.11.8",
     "astroturf": "^0.10.4",
+    "babel-jest": "^26.1.0",
+    "babel-preset-gatsby": "^0.5.2",
     "dotenv": "^8.2.0",
     "gatsby": "^2.22.12",
     "gatsby-plugin-astroturf": "^0.2.1",
     "gatsby-plugin-lodash": "^3.3.2",
     "gatsby-plugin-react-helmet": "^3.3.2",
     "isomorphic-unfetch": "^3.0.0",
+    "jest": "^26.1.0",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

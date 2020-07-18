@@ -13,12 +13,12 @@ export const styles = css`
   .title {
     margin: 0;
   }
-  
+
   .heading {
     margin-bottom: 0;
     margin-top: 0;
   }
-  
+
   .subheading {
     color: var(--color-gray-700);
   }
