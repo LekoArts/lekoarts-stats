@@ -10,8 +10,17 @@ export const styles = css`
     align-items: center;
   }
 
-  .header h1 {
+  .title {
     margin: 0;
+  }
+  
+  .heading {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  
+  .subheading {
+    color: var(--color-gray-700);
   }
 
   .main {
@@ -44,6 +53,6 @@ export const styles = css`
   }
 
   .spacer {
-    padding: 1rem 0;
+    padding: 2rem 0;
   }
 `

@@ -38,15 +38,15 @@ const Index = ({ data: { site, github, twitter } }) => {
     <React.Fragment>
       <SEO meta={meta} />
       <header className={styles.header}>
-        <h1>{site.siteMetadata.title}</h1>
+        <h1 className={styles.title}>{site.siteMetadata.title}</h1>
         <a href={meta.repo}>GitHub</a>
       </header>
       <main className={styles.main}>
-        <h2 style={{ marginBottom: 0, marginTop: 0 }}>GitHub</h2>
+        <h2 className={styles.heading}>GitHub</h2>
         <section className={styles.content}>
           {githubContent.map((g) => (
             <div key={g.heading}>
-              <h3>{g.heading}</h3>
+              <h3 className={styles.subheading}>{g.heading}</h3>
               <div className={styles.lineContainer}>
                 <Line data={g.data} xAxisName="Date" yAxisName={g.heading} />
               </div>
@@ -54,11 +54,11 @@ const Index = ({ data: { site, github, twitter } }) => {
           ))}
         </section>
         <div className={styles.spacer} />
-        <h2 style={{ marginBottom: 0 }}>Twitter</h2>
+        <h2 className={styles.heading}>Twitter</h2>
         <section className={styles.content}>
           {twitterContent.map((g) => (
             <div key={g.heading}>
-              <h3>{g.heading}</h3>
+              <h3 className={styles.subheading}>{g.heading}</h3>
               <div className={styles.lineContainer}>
                 <Line data={g.data} yScaleMin="auto" xAxisName="Date" yAxisName={g.heading} />
               </div>
@@ -80,17 +80,7 @@ export default Index
 export const query = graphql`
   query IndexQuery {
     site {
-      siteMetadata {
-        title
-        url
-        repo
-        github
-        twitter
-        homepage
-        image
-        description
-        author
-      }
+      ...meta
       buildTime(formatString: "YYYY-MM-DD hh:mm a z")
     }
     github: allGithub(sort: { fields: datetime, order: ASC }) {

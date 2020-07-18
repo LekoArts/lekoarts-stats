@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
 const SEO = ({ meta }) => (
@@ -23,3 +24,19 @@ const SEO = ({ meta }) => (
 )
 
 export default SEO
+
+export const metaFragment = graphql`
+  fragment meta on Site {
+    siteMetadata {
+      title
+      url
+      repo
+      github
+      twitter
+      homepage
+      image
+      description
+      author
+    }
+  }
+`

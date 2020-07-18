@@ -7,15 +7,14 @@ const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }) => {
     <ResponsiveLine
       {...commonProperties}
       data={data}
-      xScale={{ type: 'point' }}
+      xScale={{ type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day' }}
+      xFormat="time:%Y-%m-%d"
       yScale={{ type: 'linear', min: yScaleMin, max: yScaleMax, stacked: false }}
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        orient: 'bottom',
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: -90,
+        format: '%m/%d/%y',
+        tickValues: 4,
       }}
       axisLeft={{
         tickSize: 10,
@@ -24,7 +23,7 @@ const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }) => {
       }}
       sliceTooltip={({ slice }) => sliceTooltip(slice)}
       colors={{ scheme: 'category10' }}
-      pointSize={5}
+      pointSize={4}
       pointColor={{ from: 'color' }}
       pointBorderWidth={2}
       pointBorderColor={{ from: 'serieColor' }}
