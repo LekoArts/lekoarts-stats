@@ -1,14 +1,17 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { Helmet } from 'react-helmet'
 import 'typeface-ibm-plex-mono'
+
 import '../styles/globals.css'
 import { nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../utils/normalize'
 import Line from '../components/line'
 import { styles } from '../styles/page-index'
+import SEO from '../components/seo'
 
-const Index = ({ data }) => {
-  const normalizedGithubData = normalizeGithub(data.github.nodes, 'name', 'name')
+const Index = ({ data: { site, github, twitter } }) => {
+  const normalizedGithubData = normalizeGithub(github.nodes, 'name', 'name')
+  const meta = site.siteMetadata
+
   const githubContent = [
     {
       heading: 'Stars',
@@ -23,27 +26,24 @@ const Index = ({ data }) => {
   const twitterContent = [
     {
       heading: 'Followers',
-      data: nivoTwitterFormatter(data.twitter.nodes, 'followers'),
+      data: nivoTwitterFormatter(twitter.nodes, 'followers'),
     },
     {
       heading: 'Tweets',
-      data: nivoTwitterFormatter(data.twitter.nodes, 'tweets'),
+      data: nivoTwitterFormatter(twitter.nodes, 'tweets'),
     },
   ]
 
   return (
     <React.Fragment>
-      <Helmet>
-        <html lang="en" />
-        <title>{data.site.siteMetadata.title}</title>
-      </Helmet>
+      <SEO meta={meta} />
       <header className={styles.header}>
-        <h1>{data.site.siteMetadata.title}</h1>
-        <a href="https://github.com/LekoArts/lekoarts-stats">GitHub</a>
+        <h1>{site.siteMetadata.title}</h1>
+        <a href={meta.repo}>GitHub</a>
       </header>
       <main className={styles.main}>
         <h2 style={{ marginBottom: 0, marginTop: 0 }}>GitHub</h2>
-        <div className={styles.content}>
+        <section className={styles.content}>
           {githubContent.map((g) => (
             <div key={g.heading}>
               <h3>{g.heading}</h3>
@@ -52,10 +52,10 @@ const Index = ({ data }) => {
               </div>
             </div>
           ))}
-        </div>
+        </section>
         <div className={styles.spacer} />
         <h2 style={{ marginBottom: 0 }}>Twitter</h2>
-        <div className={styles.content}>
+        <section className={styles.content}>
           {twitterContent.map((g) => (
             <div key={g.heading}>
               <h3>{g.heading}</h3>
@@ -64,13 +64,12 @@ const Index = ({ data }) => {
               </div>
             </div>
           ))}
-        </div>
+        </section>
       </main>
       <footer className={styles.footer}>
-        &copy; {new Date().getFullYear()} by <a href="https://www.lekoarts.de">LekoArts</a>. All rights reserved. <br />
-        Follow me on <a href="https://www.github.com/LekoArts">GitHub</a> or{' '}
-        <a href="https://www.twitter.com/lekoarts_de">Twitter</a>. <br />
-        Data is pulled daily. Last build: {data.site.buildTime}
+        &copy; {new Date().getFullYear()} by <a href={meta.homepage}>LekoArts</a>. All rights reserved. <br />
+        Follow me on <a href={meta.github}>GitHub</a> or <a href={meta.twitter}>Twitter</a>. <br />
+        Data is pulled daily. Last build: {site.buildTime}
       </footer>
     </React.Fragment>
   )
@@ -83,6 +82,14 @@ export const query = graphql`
     site {
       siteMetadata {
         title
+        url
+        repo
+        github
+        twitter
+        homepage
+        image
+        description
+        author
       }
       buildTime(formatString: "YYYY-MM-DD hh:mm a z")
     }

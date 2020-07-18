@@ -3,7 +3,7 @@ require('isomorphic-unfetch')
 
 const client = createClient({
   url: process.env.AWS_GRAPHQL_API_URL,
-  requestPolicy: "network-only",
+  requestPolicy: 'network-only',
   fetchOptions: () => ({
     headers: {
       'Content-Type': 'application/graphql',

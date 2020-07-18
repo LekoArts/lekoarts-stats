@@ -5,6 +5,7 @@ node_modules
 .vscode
 .env
 .linaria-cache
+.DS_Store
 
 #amplify
 amplify/\#current-cloud-backend
