@@ -114,8 +114,8 @@ async function run() {
 
   const TWITTER_INPUT = {
     datetime: now,
-    followers: twitter.followers,
-    tweets: twitter.tweets,
+    followers: twitter.followers_count,
+    tweets: twitter.tweet_count,
   }
 
   await pushAWSGithub(GITHUB_INPUT)
