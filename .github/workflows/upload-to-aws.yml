@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Push and Pull Data
         uses: ./.github/actions/pull-push-data
-        with:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TWITTER_API: ${{ secrets.TWITTER_API }}
           AWS_GRAPHQL_API: ${{ secrets.AWS_GRAPHQL_API }}

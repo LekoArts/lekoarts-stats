@@ -4,10 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.4",
-    "aws-appsync": "^3.0.3",
-    "axios": "^0.19.2",
-    "cross-fetch": "^3.0.4",
-    "graphql-tag": "^2.10.3"
+    "@actions/core": "^1.2.6",
+    "aws-appsync": "^4.0.1",
+    "axios": "^0.21.0",
+    "cross-fetch": "^3.0.6",
+    "dotenv": "^8.2.0",
+    "graphql-tag": "^2.11.0"
   }
 }

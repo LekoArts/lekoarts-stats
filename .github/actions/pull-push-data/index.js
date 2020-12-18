@@ -1,3 +1,4 @@
+require('dotenv').config()
 require('cross-fetch/polyfill')
 const core = require('@actions/core')
 const axios = require('axios')
@@ -5,11 +6,11 @@ const AWSAppSyncClient = require('aws-appsync').default
 const { GITHUB_QUERY, createGithub, createTwitter } = require('./graphql')
 
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
-const TWITTER_API = core.getInput('TWITTER_API', { required: true })
-const AWS_GRAPHQL_API = core.getInput('AWS_GRAPHQL_API', { required: true })
-const AWS_TOKEN = core.getInput('AWS_TOKEN', { required: true })
-const AWS_REGION = core.getInput('AWS_REGION', { required: true })
-const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN', { required: true })
+const TWITTER_API = process.env.TWITTER_API
+const AWS_GRAPHQL_API = process.env.AWS_GRAPHQL_API
+const AWS_TOKEN = process.env.AWS_TOKEN
+const AWS_REGION = process.env.AWS_REGION
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 
 const awsClient = new AWSAppSyncClient({
   url: AWS_GRAPHQL_API,
@@ -118,6 +119,8 @@ async function run() {
     tweets: twitter.tweet_count,
   }
 
+  console.log({ GITHUB_INPUT })
+  console.log({ TWITTER_INPUT })
   await pushAWSGithub(GITHUB_INPUT)
   await pushAWSTwitter(TWITTER_INPUT)
 
