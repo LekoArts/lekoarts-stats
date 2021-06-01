@@ -1,5 +1,20 @@
 const { createClient } = require('@urql/core')
+const { VanillaExtractPlugin } = require(`@vanilla-extract/webpack-plugin`)
 require('isomorphic-unfetch')
+
+exports.onCreateBabelConfig = ({ actions }) => {
+  actions.setBabelPlugin({
+    name: require.resolve(`@vanilla-extract/babel-plugin`),
+  })
+}
+
+exports.onCreateWebpackConfig = ({ actions, stage }) => {
+  if (stage === `develop` || stage === `build-javascript`) {
+    actions.setWebpackConfig({
+      plugins: [new VanillaExtractPlugin()],
+    })
+  }
+}
 
 const client = createClient({
   url: process.env.AWS_GRAPHQL_API_URL,

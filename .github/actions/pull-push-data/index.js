@@ -119,8 +119,6 @@ async function run() {
     tweets: twitter.tweet_count,
   }
 
-  console.log({ GITHUB_INPUT })
-  console.log({ TWITTER_INPUT })
   await pushAWSGithub(GITHUB_INPUT)
   await pushAWSTwitter(TWITTER_INPUT)
 

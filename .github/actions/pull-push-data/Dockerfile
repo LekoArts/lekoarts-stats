@@ -1,4 +1,4 @@
-FROM node:12-slim
+FROM node:14-slim
 
 LABEL "com.github.actions.name"="Pull & Push"
 LABEL "com.github.actions.description"="Pull data and push to AWS"

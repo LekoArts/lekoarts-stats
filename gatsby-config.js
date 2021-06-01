@@ -12,5 +12,9 @@ module.exports = {
     author: '@lekoarts_de',
     description: `Dashboard of LekoArts' GitHub and Twitter statistics over time, visualized with fancy graphs.`,
   },
-  plugins: ['gatsby-plugin-astroturf', 'gatsby-plugin-lodash', 'gatsby-plugin-react-helmet'],
+  flags: {
+    DEV_SSR: false,
+    FAST_DEV: true,
+  },
+  plugins: ['gatsby-plugin-lodash', 'gatsby-plugin-react-helmet'],
 }

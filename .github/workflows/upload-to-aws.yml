@@ -8,7 +8,7 @@ jobs:
     name: Push and Pull Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Push and Pull Data
         uses: ./.github/actions/pull-push-data
         env:

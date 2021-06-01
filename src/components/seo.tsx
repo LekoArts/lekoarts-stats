@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import { graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
-const SEO = ({ meta }) => (
+const Seo = ({ meta }) => (
   <Helmet>
     <html lang="en" />
     <title>{meta.title}</title>
@@ -20,10 +20,14 @@ const SEO = ({ meta }) => (
     <meta name="twitter:image" content={`${meta.url}${meta.image}`} />
     <meta name="twitter:image:alt" content={meta.description} />
     <meta name="twitter:creator" content={meta.author} />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📈</text></svg>"
+    />
   </Helmet>
 )
 
-export default SEO
+export default Seo
 
 export const metaFragment = graphql`
   fragment meta on Site {
