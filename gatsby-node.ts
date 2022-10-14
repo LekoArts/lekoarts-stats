@@ -1,5 +1,10 @@
-const { createClient } = require('@urql/core')
-require('isomorphic-unfetch')
+import "isomorphic-unfetch"
+import { createClient } from "@urql/core"
+import { GatsbyNode } from "gatsby"
+
+if (!process.env.AWS_GRAPHQL_API_URL || !process.env.AWS_GRAPHQL_API_TOKEN) {
+  throw new Error("Missing env vars AWS_GRAPHQL_API_URL or AWS_GRAPHQL_API_TOKEN")
+}
 
 const client = createClient({
   url: process.env.AWS_GRAPHQL_API_URL,
@@ -7,7 +12,7 @@ const client = createClient({
   fetchOptions: () => ({
     headers: {
       'Content-Type': 'application/graphql',
-      'x-api-key': process.env.AWS_GRAPHQL_API_TOKEN,
+      'x-api-key': process.env.AWS_GRAPHQL_API_TOKEN as string,
     },
   }),
 })
@@ -38,7 +43,7 @@ query {
 }
 `
 
-exports.createSchemaCustomization = ({ actions }) => {
+export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = ({ actions }) => {
   const { createTypes } = actions
 
   createTypes(`
@@ -65,13 +70,13 @@ exports.createSchemaCustomization = ({ actions }) => {
   `)
 }
 
-exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, reporter }) => {
+export const sourceNodes: GatsbyNode["sourceNodes"] = async ({ actions, createNodeId, createContentDigest, reporter }) => {
   const { createNode } = actions
 
   let data
 
   try {
-    const _rawData = await client.query(QUERY).toPromise()
+    const _rawData = await client.query(QUERY, { id: `ListTwitterListGitHub` }).toPromise()
     reporter.info('Successfully sourced AWS data')
     data = {
       twitter: _rawData.data.listTwitters.items,
