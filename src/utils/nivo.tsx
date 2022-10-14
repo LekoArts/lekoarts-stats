@@ -31,7 +31,7 @@ export const sliceTooltip = (slice) => {
     >
       <div className={styles.header}>Date: {slice.points[0].data.xFormatted.replace(/"/g, '')}</div>
       <div className={atoms({ padding: '0x' })}>
-        {slice.points.map((point) => (
+        {slice.points.map(point => (
           <div
             key={point.id}
             className={atoms({

@@ -30,8 +30,8 @@ async function fetchGithubData() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `bearer ${GITHUB_TOKEN}`,
+        'Accept': 'application/json',
+        'Authorization': `bearer ${GITHUB_TOKEN}`,
       },
       data: {
         query: GITHUB_QUERY,
@@ -40,7 +40,8 @@ async function fetchGithubData() {
     core.info('Successfully fetched Github Data')
 
     return res.data.data.search.nodes
-  } catch (err) {
+  }
+  catch (err) {
     core.setFailed(`[fetchGithubData]: ${err}`)
   }
 }
@@ -53,13 +54,14 @@ async function fetchTwitterData() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json',
       },
     })
     core.info('Successfully fetched Twitter Data')
 
     return res.data
-  } catch (err) {
+  }
+  catch (err) {
     core.setFailed(`[fetchTwitterData]: ${err}`)
   }
 }
@@ -74,7 +76,8 @@ async function pushAWSGithub(input) {
         input,
       },
     })
-  } catch (err) {
+  }
+  catch (err) {
     core.setFailed(`[pushAWSGithub]: ${err}`)
   }
 }
@@ -89,7 +92,8 @@ async function pushAWSTwitter(input) {
         input,
       },
     })
-  } catch (err) {
+  }
+  catch (err) {
     core.setFailed(`[pushAWSTwitter]: ${err}`)
   }
 }
@@ -100,7 +104,7 @@ async function run() {
 
   const now = new Date().toISOString()
 
-  const repos = github.map((g) => ({
+  const repos = github.map(g => ({
     id: g.id,
     name: g.name,
     url: g.url,

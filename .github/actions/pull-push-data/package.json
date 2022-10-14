@@ -1,8 +1,8 @@
 {
   "name": "pull-push-data",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "index.js",
   "dependencies": {
     "@actions/core": "^1.4.0",
     "aws-appsync": "4.0.3",

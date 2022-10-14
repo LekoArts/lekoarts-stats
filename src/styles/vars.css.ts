@@ -6,9 +6,9 @@ const createScale = (ratio: number, base: number) => (steps: number) => `${modul
 const spaceScale = createScale(1.4, 4)
 
 const color = {
-  primary: '#3643a3',
-  white: 'white',
-  black: 'black',
+  'primary': '#3643a3',
+  'white': 'white',
+  'black': 'black',
   'gray-50': '#ffffff',
   'gray-100': '#e0e5eb',
   'gray-200': '#b9c1ca',
@@ -39,7 +39,7 @@ export const breakpoints = {
 export const vars = createGlobalTheme(':root', {
   color,
   fontFamily: {
-    body: "'IBM Plex Mono', monospace",
+    body: '\'IBM Plex Mono\', monospace',
   },
   fontSize: {
     sm: '14px',
@@ -62,7 +62,7 @@ export const vars = createGlobalTheme(':root', {
     md: '5px',
   },
   space: {
-    none: '0',
+    'none': '0',
     '0x': spaceScale(0),
     '1x': spaceScale(1),
     '2x': spaceScale(2),
@@ -72,7 +72,7 @@ export const vars = createGlobalTheme(':root', {
     '6x': spaceScale(6),
     '7x': spaceScale(7),
     '8x': spaceScale(8),
-    point: '0.1rem',
+    'point': '0.1rem',
   },
   chartHeight: {
     sm: '400',

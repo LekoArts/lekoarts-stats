@@ -1,4 +1,4 @@
-import { normalizeGithub, flatten, constructShape, nivoGithubFormatter, nivoTwitterFormatter } from './normalize'
+import { constructShape, flatten, nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
 import { data as githubData } from './__fixtures__/github'
 import { data as twitterData } from './__fixtures__/twitter'
 

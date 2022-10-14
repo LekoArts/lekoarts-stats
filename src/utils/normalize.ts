@@ -21,7 +21,7 @@ export function flatten(data) {
  */
 
 export function constructShape(flat, name, omit) {
-  return _.mapValues(_.groupBy(flat, name), (list) => list.map((entry) => _.omit(entry, omit)))
+  return _.mapValues(_.groupBy(flat, name), list => list.map(entry => _.omit(entry, omit)))
 }
 
 export function normalizeGithub(data, name, omit) {
@@ -36,7 +36,7 @@ export function nivoGithubFormatter(data, name) {
   for (const key of keys) {
     const entry = data[key]
 
-    const values = entry.map((e) => ({
+    const values = entry.map(e => ({
       x: e.datetime,
       y: e[name],
     }))
@@ -53,7 +53,7 @@ export function nivoGithubFormatter(data, name) {
 }
 
 export function nivoTwitterFormatter(data, name) {
-  const values = data.map((e) => ({
+  const values = data.map(e => ({
     x: e.datetime,
     y: e[name],
   }))

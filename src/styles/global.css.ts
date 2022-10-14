@@ -2,7 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { breakpoints, vars } from './vars.css'
 
 globalStyle('html', {
-  fontSize: vars.fontSize.md,
+  'fontSize': vars.fontSize.md,
   '@media': {
     [`screen and (min-width: ${breakpoints.desktop})`]: {
       fontSize: vars.fontSize.lg,
@@ -40,15 +40,15 @@ globalStyle('body', {
 })
 
 export const linkStyle = style({
-  color: vars.color.black,
-  textDecoration: 'none',
-  fontStyle: 'italic',
-  transition: 'all 0.3s ease-in-out',
+  'color': vars.color.black,
+  'textDecoration': 'none',
+  'fontStyle': 'italic',
+  'transition': 'all 0.3s ease-in-out',
   ':hover': {
     textDecoration: 'underline',
     color: vars.color.primary,
   },
-  selectors: {
+  'selectors': {
     '.dark &': {
       color: vars.color['gray-100'],
     },

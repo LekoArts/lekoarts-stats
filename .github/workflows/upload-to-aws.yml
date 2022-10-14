@@ -2,13 +2,13 @@ name: Upload to AWS
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 12 * * *"
+    - cron: '0 12 * * *'
 jobs:
   pushAndPull:
     name: Push and Pull Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Push and Pull Data
         uses: ./.github/actions/pull-push-data
         env:

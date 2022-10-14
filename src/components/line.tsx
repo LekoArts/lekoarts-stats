@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { ResponsiveLine, Serie } from '@nivo/line'
+import type { Serie } from '@nivo/line'
+import { ResponsiveLine } from '@nivo/line'
 import { commonProperties, sliceTooltip } from '../utils/nivo'
 
 interface ILineProps {

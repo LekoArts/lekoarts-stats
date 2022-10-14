@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { graphql, PageProps } from 'gatsby'
+import type { HeadFC, PageProps } from 'gatsby'
+import { graphql } from 'gatsby'
 import useDarkMode from 'use-dark-mode'
-import Seo from '../components/seo'
 import { nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../utils/normalize'
+import type { IHomepageDataProps } from '../types'
 import Line from '../components/line'
 import * as styles from '../styles/pages-index.css'
 import { atoms } from '../styles/sprinkles.css'
-import { IHomepageDataProps } from '../types'
 import { linkStyle } from '../styles/global.css'
 
 import '@fontsource/ibm-plex-mono/400.css'
@@ -49,9 +49,8 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
 
   return (
     <React.Fragment>
-      <Seo meta={meta} />
       <header className={styles.header}>
-        <h1 className={atoms({ margin: 'none' })}>{site.siteMetadata.title}</h1>
+        <h1 className={atoms({ margin: 'none' })}>{meta.title}</h1>
         <div className={atoms({ display: 'flex', alignItems: 'center' })}>
           <button
             className={styles.button}
@@ -73,7 +72,7 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
       >
         <h2 className={atoms({ marginY: 'none' })}>GitHub</h2>
         <section className={styles.content}>
-          {githubContent.map((g) => (
+          {githubContent.map(g => (
             <div key={g.heading}>
               <h3 className={atoms({ color: { light: 'gray-700' } })}>{g.heading}</h3>
               <div className={styles.lineContainer}>
@@ -85,7 +84,7 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
         <div className={atoms({ paddingY: '6x', paddingX: 'none' })} />
         <h2 className={atoms({ marginY: 'none' })}>Twitter</h2>
         <section className={styles.content}>
-          {twitterContent.map((g) => (
+          {twitterContent.map(g => (
             <div key={g.heading}>
               <h3 className={atoms({ color: { light: 'gray-700' } })}>{g.heading}</h3>
               <div className={styles.lineContainer}>
@@ -118,10 +117,44 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
 
 export default Index
 
+export const Head: HeadFC<IHomepageDataProps> = ({ data: { site: { siteMetadata: meta } } }) => (
+  <React.Fragment>
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="og:title" content={meta.title} />
+    <meta name="og:url" content={meta.url} />
+    <meta name="og:description" content={meta.description} />
+    <meta name="og:image" content={`${meta.url}${meta.image}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:alt" content={meta.description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:url" content={meta.url} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={`${meta.url}${meta.image}`} />
+    <meta name="twitter:image:alt" content={meta.description} />
+    <meta name="twitter:creator" content={meta.author} />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📈</text></svg>"
+    />
+  </React.Fragment>
+)
+
 export const query = graphql`
   query IndexQuery {
     site {
-      ...meta
+      siteMetadata {
+        title
+        url
+        repo
+        github
+        twitter
+        homepage
+        image
+        description
+        author
+      }
       buildTime(formatString: "YYYY-MM-DD hh:mm a z")
     }
     github: allGithub(sort: { fields: datetime, order: ASC }) {

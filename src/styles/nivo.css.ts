@@ -1,4 +1,4 @@
-import { style, composeStyles } from '@vanilla-extract/css'
+import { composeStyles, style } from '@vanilla-extract/css'
 import { atoms } from './sprinkles.css'
 
 export const header = composeStyles(
@@ -15,7 +15,7 @@ export const header = composeStyles(
     padding: '0x',
   }),
   style({
-    borderBottomWidth: `1px`,
-    borderBottomStyle: `solid`,
-  })
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+  }),
 )
