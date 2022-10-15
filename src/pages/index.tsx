@@ -157,24 +157,21 @@ export const query = graphql`
       }
       buildTime(formatString: "YYYY-MM-DD hh:mm a z")
     }
-    github: allGithub(sort: { fields: datetime, order: ASC }) {
+    github: allGithub(sort: { fields: createdAt, order: ASC }) {
       nodes {
         id
-        datetime(formatString: "YYYY-MM-DD")
-        repos {
-          forks
-          id
-          name
-          stars
-          url
-        }
+        createdAt(formatString: "YYYY-MM-DD")
+        forks
+        name
+        stars
+        url
       }
     }
-    twitter: allTwitter(sort: { fields: datetime, order: ASC }) {
+    twitter: allTwitter(sort: { fields: createdAt, order: ASC }) {
       nodes {
         tweets
         followers
-        datetime(formatString: "YYYY-MM-DD")
+        createdAt(formatString: "YYYY-MM-DD")
       }
     }
   }

@@ -14,6 +14,9 @@ const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }: ILineProps) => {
     <ResponsiveLine
       {...commonProperties}
       data={data}
+      curve="linear"
+      lineWidth={2}
+      enablePoints={false}
       theme={{
         textColor: 'var(--chart-text-color, #333333)',
         crosshair: { line: { stroke: 'var(--chart-crosshair-color, #333333)' } },
@@ -29,8 +32,8 @@ const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }: ILineProps) => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        format: '%m/%d/%y',
-        tickValues: 4,
+        format: '%Y-%m-%d',
+        tickValues: 'every 6 months',
       }}
       axisLeft={{
         tickSize: 10,
@@ -39,10 +42,6 @@ const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }: ILineProps) => {
       }}
       sliceTooltip={({ slice }) => sliceTooltip(slice)}
       colors={{ scheme: 'category10' }}
-      pointSize={4}
-      pointColor={{ from: 'color' }}
-      pointBorderWidth={2}
-      pointBorderColor={{ from: 'serieColor' }}
       enableCrosshair={true}
       crosshairType="x"
     />

@@ -16,6 +16,7 @@
     "@fontsource/ibm-plex-mono": "^4.5.12",
     "@nivo/core": "0.78.0",
     "@nivo/line": "0.78.0",
+    "@supabase/supabase-js": "^2.0.0",
     "@vanilla-extract/css": "^1.9.1",
     "@vanilla-extract/sprinkles": "^1.5.0",
     "@vanilla-extract/webpack-plugin": "^2.2.0",

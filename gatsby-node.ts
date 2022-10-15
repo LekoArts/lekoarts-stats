@@ -1,46 +1,10 @@
-import 'isomorphic-unfetch'
-import { createClient } from '@urql/core'
 import type { GatsbyNode } from 'gatsby'
+import { createClient } from '@supabase/supabase-js'
 
-if (!process.env.AWS_GRAPHQL_API_URL || !process.env.AWS_GRAPHQL_API_TOKEN)
-  throw new Error('Missing env vars AWS_GRAPHQL_API_URL or AWS_GRAPHQL_API_TOKEN')
+if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY)
+  throw new Error('Missing environment variables')
 
-const client = createClient({
-  url: process.env.AWS_GRAPHQL_API_URL,
-  requestPolicy: 'network-only',
-  fetchOptions: () => ({
-    headers: {
-      'Content-Type': 'application/graphql',
-      'x-api-key': process.env.AWS_GRAPHQL_API_TOKEN as string,
-    },
-  }),
-})
-
-const QUERY = `
-query {
-  listTwitters {
-    items {
-      id
-      datetime
-      followers
-      tweets
-    }
-  }
-  listGithubs {
-    items {
-      id
-      datetime
-      repos {
-        id
-        name
-        url
-        stars
-        forks
-      }
-    }
-  }
-}
-`
+const supabase = createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_API_KEY)
 
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({ actions }) => {
   const { createTypes } = actions
@@ -48,12 +12,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
   createTypes(`
     type Github implements Node {
       id: ID!
-      datetime: Date! @dateformat
-      repos: [Repo!]!
-    }
-    
-    type Repo {
-      id: ID!
+      createdAt: Date! @dateformat
       name: String!
       url: String!
       stars: Int!
@@ -62,31 +21,46 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     
     type Twitter implements Node {
       id: ID!
-      datetime: Date! @dateformat
+      createdAt: Date! @dateformat
       followers: Int!
       tweets: Int!
     }
   `)
 }
 
+interface TwitterEntry {
+  id: string
+  tweets: number
+  followers: number
+  createdAt: string
+}
+
+interface GitHubEntry {
+  id: string
+  createdAt: string
+  url: string
+  stars: number
+  forks: number
+  name: string
+}
+
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNodeId, createContentDigest, reporter }) => {
   const { createNode } = actions
 
-  let data
+  const twitter = await supabase.from('twitter').select()
 
-  try {
-    const _rawData = await client.query(QUERY, { id: 'ListTwitterListGitHub' }).toPromise()
-    reporter.info('Successfully sourced AWS data')
-    data = {
-      twitter: _rawData.data.listTwitters.items,
-      github: _rawData.data.listGithubs.items,
-    }
-  }
-  catch (error) {
-    reporter.panicOnBuild(error)
-  }
+  if (twitter.error)
+    reporter.panicOnBuild(twitter.error as unknown as Error)
 
-  data.twitter.forEach((t) => {
+  const github = await supabase.from('github').select()
+
+  if (github.error)
+    reporter.panicOnBuild(github.error as unknown as Error)
+
+  const twitterData = twitter.data as TwitterEntry[]
+  const githubData = github.data as GitHubEntry[]
+
+  twitterData.forEach((t) => {
     const node = {
       ...t,
       id: createNodeId(`twitter-${t.id}`),
@@ -102,7 +76,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNo
     createNode(node)
   })
 
-  data.github.forEach((g) => {
+  githubData.forEach((g) => {
     const node = {
       ...g,
       id: createNodeId(`github-${g.id}`),
