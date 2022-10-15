@@ -1,5 +1,6 @@
 import type { GatsbyNode } from 'gatsby'
 import { createClient } from '@supabase/supabase-js'
+import type { IGitHubEntry, ITwitterEntry } from './src/types'
 
 if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY)
   throw new Error('Missing environment variables')
@@ -28,22 +29,6 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
   `)
 }
 
-interface TwitterEntry {
-  id: string
-  tweets: number
-  followers: number
-  createdAt: string
-}
-
-interface GitHubEntry {
-  id: string
-  createdAt: string
-  url: string
-  stars: number
-  forks: number
-  name: string
-}
-
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNodeId, createContentDigest, reporter }) => {
   const { createNode } = actions
 
@@ -57,8 +42,8 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNo
   if (github.error)
     reporter.panicOnBuild(github.error as unknown as Error)
 
-  const twitterData = twitter.data as TwitterEntry[]
-  const githubData = github.data as GitHubEntry[]
+  const twitterData = twitter.data as ITwitterEntry[]
+  const githubData = github.data as IGitHubEntry[]
 
   twitterData.forEach((t) => {
     const node = {

@@ -22,7 +22,7 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
     classNameLight: 'light',
     storageKey: 'lekoarts-stats-modes',
   })
-  const normalizedGithubData = normalizeGithub(github.nodes, 'name', 'name')
+  const normalizedGithubData = normalizeGithub(github.nodes, 'name')
   const meta = site.siteMetadata
 
   const githubContent = [
@@ -169,6 +169,7 @@ export const query = graphql`
     }
     twitter: allTwitter(sort: { fields: createdAt, order: ASC }) {
       nodes {
+        id
         tweets
         followers
         createdAt(formatString: "YYYY-MM-DD")

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { SliceTooltipProps } from '@nivo/line'
 import { atoms } from '../styles/sprinkles.css'
 import * as styles from '../styles/nivo.css'
 
@@ -13,7 +14,7 @@ export const commonProperties = {
   enableSlices: 'x' as 'x' | 'y' | false,
 }
 
-export const sliceTooltip = (slice) => {
+export const sliceTooltip = (slice: SliceTooltipProps['slice']) => {
   return (
     <div
       className={atoms({
@@ -29,7 +30,7 @@ export const sliceTooltip = (slice) => {
         borderRadius: 'md',
       })}
     >
-      <div className={styles.header}>Date: {slice.points[0].data.xFormatted.replace(/"/g, '')}</div>
+      <div className={styles.header}>Date: {slice.points[0].data.xFormatted.toString().replace(/"/g, '')}</div>
       <div className={atoms({ padding: '0x' })}>
         {slice.points.map(point => (
           <div

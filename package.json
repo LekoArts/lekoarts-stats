@@ -10,7 +10,8 @@
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "lint:fix": "yarn lint --fix",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^4.5.12",

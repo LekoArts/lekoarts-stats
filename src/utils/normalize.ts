@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import type { IGitHubEntry, ITwitterEntry } from '../types'
 
 /**
  * _.mapValues: https://lodash.com/docs/4.17.15#mapValues
@@ -6,15 +7,15 @@ import _ from 'lodash'
  * _.omit: https://lodash.com/docs/4.17.15#omit
  */
 
-export function constructShape(data, name, omit) {
-  return _.mapValues(_.groupBy(data, name), list => list.map(entry => _.omit(entry, omit)))
+export function normalizeGithub(data: IGitHubEntry[], name: keyof IGitHubEntry) {
+  return _.mapValues(_.groupBy(data, name), list => list.map(entry => _.omit(entry, name))) as GitHubFormatterDataInput
 }
 
-export function normalizeGithub(data, name, omit) {
-  return constructShape(data, name, omit)
+interface GitHubFormatterDataInput {
+  [key: string]: Omit<IGitHubEntry, 'name'>[]
 }
 
-export function nivoGithubFormatter(data, name) {
+export function nivoGithubFormatter(data: GitHubFormatterDataInput, name: keyof Omit<IGitHubEntry, 'name'>) {
   const keys = Object.keys(data)
   const nivoData = []
 
@@ -37,7 +38,7 @@ export function nivoGithubFormatter(data, name) {
   return nivoData.reverse()
 }
 
-export function nivoTwitterFormatter(data, name) {
+export function nivoTwitterFormatter(data: ITwitterEntry[], name: keyof ITwitterEntry) {
   const values = data.map(e => ({
     x: e.createdAt,
     y: e[name],

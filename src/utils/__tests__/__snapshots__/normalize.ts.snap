@@ -1,52 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`constructShape > should group data by name and omit name 1`] = `
-{
-  "gatsby-starter-minimal-blog": [
-    {
-      "createdAt": "2020-07-17",
-      "forks": 154,
-      "stars": 517,
-      "url": "https://github.com/LekoArts/gatsby-starter-minimal-blog",
-    },
-    {
-      "createdAt": "2020-07-18",
-      "forks": 153,
-      "stars": 517,
-      "url": "https://github.com/LekoArts/gatsby-starter-minimal-blog",
-    },
-  ],
-  "gatsby-starter-portfolio-bella": [
-    {
-      "createdAt": "2020-07-17",
-      "forks": 19,
-      "stars": 113,
-      "url": "https://github.com/LekoArts/gatsby-starter-portfolio-bella",
-    },
-    {
-      "createdAt": "2020-07-18",
-      "forks": 18,
-      "stars": 113,
-      "url": "https://github.com/LekoArts/gatsby-starter-portfolio-bella",
-    },
-  ],
-  "gatsby-themes": [
-    {
-      "createdAt": "2020-07-17",
-      "forks": 243,
-      "stars": 745,
-      "url": "https://github.com/LekoArts/gatsby-themes",
-    },
-    {
-      "createdAt": "2020-07-18",
-      "forks": 245,
-      "stars": 749,
-      "url": "https://github.com/LekoArts/gatsby-themes",
-    },
-  ],
-}
-`;
-
 exports[`nivoGithubFormatter > should output correct shape via input 1`] = `
 [
   {
@@ -111,4 +64,57 @@ exports[`nivoTwitterFormatter > should output correct shape via input 1`] = `
     "id": "followers",
   },
 ]
+`;
+
+exports[`normalizeGithub > should flatten and group data by name 1`] = `
+{
+  "gatsby-starter-minimal-blog": [
+    {
+      "createdAt": "2020-07-17",
+      "forks": 154,
+      "id": "2",
+      "stars": 517,
+      "url": "https://github.com/LekoArts/gatsby-starter-minimal-blog",
+    },
+    {
+      "createdAt": "2020-07-18",
+      "forks": 153,
+      "id": "5",
+      "stars": 517,
+      "url": "https://github.com/LekoArts/gatsby-starter-minimal-blog",
+    },
+  ],
+  "gatsby-starter-portfolio-bella": [
+    {
+      "createdAt": "2020-07-17",
+      "forks": 19,
+      "id": "3",
+      "stars": 113,
+      "url": "https://github.com/LekoArts/gatsby-starter-portfolio-bella",
+    },
+    {
+      "createdAt": "2020-07-18",
+      "forks": 18,
+      "id": "6",
+      "stars": 113,
+      "url": "https://github.com/LekoArts/gatsby-starter-portfolio-bella",
+    },
+  ],
+  "gatsby-themes": [
+    {
+      "createdAt": "2020-07-17",
+      "forks": 243,
+      "id": "1",
+      "stars": 745,
+      "url": "https://github.com/LekoArts/gatsby-themes",
+    },
+    {
+      "createdAt": "2020-07-18",
+      "forks": 245,
+      "id": "4",
+      "stars": 749,
+      "url": "https://github.com/LekoArts/gatsby-themes",
+    },
+  ],
+}
 `;

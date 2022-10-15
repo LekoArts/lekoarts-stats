@@ -1,47 +1,27 @@
-import { constructShape, nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
+import { nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
 import { data as githubData } from './__fixtures__/github'
 import { data as twitterData } from './__fixtures__/twitter'
 
-describe('constructShape', () => {
-  it('should group data by name and omit name', () => {
-    const shape = constructShape(githubData, 'name', 'name')
-    const namedEntry = shape['gatsby-starter-minimal-blog']
-
-    expect(shape).toMatchSnapshot()
-    expect(namedEntry).toStrictEqual([
-      {
-        createdAt: '2020-07-17',
-        forks: 154,
-        stars: 517,
-        url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
-      },
-      {
-        createdAt: '2020-07-18',
-        forks: 153,
-        stars: 517,
-        url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
-      },
-    ])
-  })
-})
-
 describe('normalizeGithub', () => {
   it('should flatten and group data by name', () => {
-    const normalized = normalizeGithub(githubData, 'name', 'name')
+    const normalized = normalizeGithub(githubData, 'name')
     const namedEntry = normalized['gatsby-starter-minimal-blog']
 
+    expect(normalized).toMatchSnapshot()
     expect(namedEntry).toStrictEqual([
       {
         createdAt: '2020-07-17',
         forks: 154,
         stars: 517,
         url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
+        id: '2',
       },
       {
         createdAt: '2020-07-18',
         forks: 153,
         stars: 517,
         url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
+        id: '5',
       },
     ])
   })
@@ -49,7 +29,7 @@ describe('normalizeGithub', () => {
 
 describe('nivoGithubFormatter', () => {
   it('should output correct shape via input', () => {
-    const normalized = normalizeGithub(githubData, 'name', 'name')
+    const normalized = normalizeGithub(githubData, 'name')
     const nivo = nivoGithubFormatter(normalized, 'stars')
 
     const objectShape = [

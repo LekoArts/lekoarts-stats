@@ -1,19 +1,17 @@
 export interface IGitHubEntry {
   id: string
-  datetime: string
-  repos: {
-    forks: number
-    stars: number
-    id: string
-    url: string
-    name: string
-  }[]
+  createdAt: string
+  url: string
+  stars: number
+  forks: number
+  name: string
 }
 
 export interface ITwitterEntry {
+  id: string
   tweets: number
   followers: number
-  datetime: string
+  createdAt: string
 }
 
 export interface IHomepageDataProps {

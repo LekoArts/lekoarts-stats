@@ -5,6 +5,7 @@ export const data = [
     stars: 745,
     url: 'https://github.com/LekoArts/gatsby-themes',
     createdAt: '2020-07-17',
+    id: '1',
   },
   {
     forks: 154,
@@ -12,6 +13,7 @@ export const data = [
     stars: 517,
     url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
     createdAt: '2020-07-17',
+    id: '2',
   },
   {
     forks: 19,
@@ -19,6 +21,7 @@ export const data = [
     stars: 113,
     url: 'https://github.com/LekoArts/gatsby-starter-portfolio-bella',
     createdAt: '2020-07-17',
+    id: '3',
   },
   {
     forks: 245,
@@ -26,6 +29,7 @@ export const data = [
     stars: 749,
     url: 'https://github.com/LekoArts/gatsby-themes',
     createdAt: '2020-07-18',
+    id: '4',
   },
   {
     forks: 153,
@@ -33,6 +37,7 @@ export const data = [
     stars: 517,
     url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
     createdAt: '2020-07-18',
+    id: '5',
   },
   {
     forks: 18,
@@ -40,5 +45,6 @@ export const data = [
     stars: 113,
     url: 'https://github.com/LekoArts/gatsby-starter-portfolio-bella',
     createdAt: '2020-07-18',
+    id: '6',
   },
 ]
