@@ -1,4 +1,4 @@
-name: Upload to AWS
+name: Upload to Supabase
 on:
   workflow_dispatch:
   schedule:
@@ -10,10 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Push and Pull Data
-        uses: ./.github/actions/pull-push-data
+        uses: ./.github/actions/supabase
         env:
+          SUPABASE_API_URL: ${{ secrets.SUPABASE_API_URL }}
+          SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TWITTER_API: ${{ secrets.TWITTER_API }}
-          AWS_GRAPHQL_API: ${{ secrets.AWS_GRAPHQL_API }}
-          AWS_TOKEN: ${{ secrets.AWS_TOKEN }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TWITTER_API_URL: ${{ secrets.TWITTER_API_URL }}
