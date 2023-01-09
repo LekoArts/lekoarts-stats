@@ -157,7 +157,7 @@ export const query = graphql`
       }
       buildTime(formatString: "YYYY-MM-DD hh:mm a z")
     }
-    github: allGithub(sort: { fields: createdAt, order: ASC }) {
+    github: allGithub(sort: { createdAt: ASC }) {
       nodes {
         id
         createdAt(formatString: "YYYY-MM-DD")
@@ -167,7 +167,7 @@ export const query = graphql`
         url
       }
     }
-    twitter: allTwitter(sort: { fields: createdAt, order: ASC }) {
+    twitter: allTwitter(sort: { createdAt: ASC }) {
       nodes {
         id
         tweets
