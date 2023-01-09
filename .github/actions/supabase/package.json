@@ -15,15 +15,15 @@
   "author": "LekoArts",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.11.0",
+    "@types/node": "^18.11.18",
     "microbundle": "^0.15.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@supabase/supabase-js": "^2.0.0",
+    "@supabase/supabase-js": "^2.2.3",
     "dotenv": "^16.0.3",
-    "ky": "^0.31.4",
+    "ky": "^0.33.1",
     "ky-universal": "^0.11.0"
   }
 }
