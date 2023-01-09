@@ -7,7 +7,7 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "yarn lint --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
