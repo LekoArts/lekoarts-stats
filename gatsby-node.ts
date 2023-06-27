@@ -5,7 +5,7 @@ import type { IGitHubEntry, ITwitterEntry } from './src/types'
 if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY)
   throw new Error('Missing environment variables')
 
-const supabase = createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_API_KEY)
+const supabase = createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_API_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({ actions }) => {
   const { createTypes } = actions

@@ -71,7 +71,7 @@ interface TwitterInsert {
   tweets: number | undefined
 }
 
-const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY)
+const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
 async function fetchGithubData() {
   try {
@@ -90,7 +90,9 @@ async function fetchGithubData() {
     return res
   }
   catch (err) {
-    core.setFailed(`[fetchGithubData]: ${err}`)
+    core.warning(`[fetchGithubData]: ${err}`)
+
+    return undefined
   }
 }
 
@@ -103,7 +105,9 @@ async function fetchTwitterData() {
     return res
   }
   catch (err) {
-    core.setFailed(`[fetchTwitterData]: ${err}`)
+    core.warning(`[fetchTwitterData]: ${err}`)
+
+    return undefined
   }
 }
 
@@ -114,29 +118,40 @@ async function run() {
   const twitter = await fetchTwitterData()
   const now = new Date().toISOString()
 
-  const GITHUB_INPUT: GitHubInsert[] | undefined = github?.data.search.nodes.map(repo => ({
-    createdAt: now,
-    forks: repo.forkCount,
-    name: repo.name,
-    stars: repo.stargazers.totalCount,
-    url: repo.url,
-  }))
+  let GITHUB_INPUT: GitHubInsert[] | undefined
+  let TWITTER_INPUT: TwitterInsert | undefined
 
-  const TWITTER_INPUT: TwitterInsert | undefined = {
-    createdAt: now,
-    followers: twitter?.followers_count,
-    tweets: twitter?.tweet_count,
+  if (github) {
+    GITHUB_INPUT = github.data.search.nodes.map(repo => ({
+      createdAt: now,
+      forks: repo.forkCount,
+      name: repo.name,
+      stars: repo.stargazers.totalCount,
+      url: repo.url,
+    }))
   }
 
-  core.info('Pushing Twitter data to supabase')
-  const { error: twitterInsertError } = await supabase.from('twitter').insert(TWITTER_INPUT)
-  if (twitterInsertError)
-    core.setFailed(`[twitterInsert]: ${twitterInsertError}`)
+  if (twitter) {
+    TWITTER_INPUT = {
+      createdAt: now,
+      followers: twitter.followers_count,
+      tweets: twitter.tweet_count,
+    }
+  }
 
-  core.info('Pushing GitHub data to supabase')
-  const { error: githubInsertError } = await supabase.from('github').insert(GITHUB_INPUT)
-  if (githubInsertError)
-    core.setFailed(`[githubInsert]: ${githubInsertError}`)
+  if (TWITTER_INPUT) {
+    core.info('Pushing Twitter data to supabase')
+    const { error: twitterInsertError } = await supabase.from('twitter').insert(TWITTER_INPUT)
+    if (twitterInsertError)
+      core.setFailed(`[twitterInsert]: ${twitterInsertError}`)
+  }
+
+  if (GITHUB_INPUT) {
+    core.info('Pushing GitHub data to supabase')
+    const { error: githubInsertError } = await supabase.from('github').insert(GITHUB_INPUT)
+    if (githubInsertError)
+      core.setFailed(`[githubInsert]: ${githubInsertError}`)
+  }
 
   core.info('Done 🎉')
 }
