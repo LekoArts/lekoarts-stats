@@ -1,4 +1,4 @@
-name: Build site on Gatsby Cloud
+name: Build site on Netlify
 on:
   workflow_dispatch:
   schedule:
