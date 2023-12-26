@@ -4,7 +4,7 @@ import 'dotenv/config'
 const config: GatsbyConfig = {
   siteMetadata: {
     title: 'LekoArts Statistics',
-    url: 'https://lekoartsstats.gatsbyjs.io/',
+    url: 'https://lekoartsstats.netlify.app/',
     repo: 'https://github.com/LekoArts/lekoarts-stats',
     github: 'https://www.github.com/LekoArts',
     twitter: 'https://www.twitter.com/lekoarts_de',
