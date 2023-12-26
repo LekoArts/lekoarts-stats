@@ -2,7 +2,7 @@ name: Build site on Netlify
 on:
   workflow_dispatch:
   schedule:
-    - cron: '10 12 * * SUN'
+    - cron: '10 12 1 * *'
 jobs:
   buildSite:
     name: Build site on Netlify

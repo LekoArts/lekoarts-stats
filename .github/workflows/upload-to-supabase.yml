@@ -2,7 +2,7 @@ name: Upload to Supabase
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * SUN'
+    - cron: '0 12 1 * *'
 jobs:
   pushAndPull:
     name: Push and Pull Data
