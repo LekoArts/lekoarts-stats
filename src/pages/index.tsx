@@ -164,7 +164,6 @@ export const query = graphql`
         forks
         name
         stars
-        url
       }
     }
     twitter: allTwitter(sort: { createdAt: ASC }) {

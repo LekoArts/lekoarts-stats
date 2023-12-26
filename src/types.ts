@@ -1,7 +1,6 @@
 export interface IGitHubEntry {
   id: string
   createdAt: string
-  url: string
   stars: number
   forks: number
   name: string

@@ -15,7 +15,6 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       id: ID!
       createdAt: Date! @dateformat
       name: String!
-      url: String!
       stars: Int!
       forks: Int!
     }

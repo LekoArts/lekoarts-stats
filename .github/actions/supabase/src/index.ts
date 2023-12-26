@@ -22,7 +22,6 @@ query {
         }
         forkCount
         name
-        url
         id
       }
     }
@@ -39,7 +38,6 @@ interface GitHubResponse {
         }
         forkCount: number
         name: string
-        url: string
         id: string
       }[]
     }
@@ -62,7 +60,6 @@ interface GitHubInsert {
   forks: number
   name: string
   stars: number
-  url: string
 }
 
 interface TwitterInsert {
@@ -127,7 +124,6 @@ async function run() {
       forks: repo.forkCount,
       name: repo.name,
       stars: repo.stargazers.totalCount,
-      url: repo.url,
     }))
   }
 
