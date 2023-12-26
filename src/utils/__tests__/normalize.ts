@@ -13,14 +13,12 @@ describe('normalizeGithub', () => {
         createdAt: '2020-07-17',
         forks: 154,
         stars: 517,
-        url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
         id: '2',
       },
       {
         createdAt: '2020-07-18',
         forks: 153,
         stars: 517,
-        url: 'https://github.com/LekoArts/gatsby-starter-minimal-blog',
         id: '5',
       },
     ])
