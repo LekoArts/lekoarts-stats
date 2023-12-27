@@ -1,16 +1,18 @@
 import 'dotenv/config'
-import ky from 'ky-universal'
+import ky from 'ky'
 import * as core from '@actions/core'
 import { createClient } from '@supabase/supabase-js'
-
-if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY || !process.env.GITHUB_TOKEN || !process.env.TWITTER_API_URL)
-  throw new Error('Missing environment variables')
+import { createRestAPIClient } from 'masto'
 
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 const SUPABASE_API_URL = process.env.SUPABASE_API_URL
 const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
-const TWITTER_API_URL = process.env.TWITTER_API_URL
+const MASTODON_ACCESS_TOKEN = process.env.MASTODON_ACCESS_TOKEN
+const MASTODON_ACCOUNT_ID = process.env.MASTODON_ACCOUNT_ID
+
+if (!SUPABASE_API_URL || !SUPABASE_API_KEY || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID)
+  throw new Error('Missing environment variables')
 
 const GITHUB_QUERY = `
 query {
@@ -44,17 +46,6 @@ interface GitHubResponse {
   }
 }
 
-interface TwitterResponse {
-  username: string
-  name: string
-  created_at: string
-  id: string
-  followers_count: number
-  following_count: number
-  tweet_count: number
-  listed_count: number
-}
-
 interface GitHubInsert {
   createdAt: string
   forks: number
@@ -62,13 +53,18 @@ interface GitHubInsert {
   stars: number
 }
 
-interface TwitterInsert {
+interface MastodonInsert {
   createdAt: string
-  followers: number | undefined
-  tweets: number | undefined
+  followersCount: number
+  tootsCount: number
 }
 
 const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
+
+const masto = createRestAPIClient({
+  url: 'https://mastodon.social',
+  accessToken: MASTODON_ACCESS_TOKEN,
+})
 
 async function fetchGithubData() {
   try {
@@ -93,16 +89,23 @@ async function fetchGithubData() {
   }
 }
 
-async function fetchTwitterData() {
+async function fetchMastodonData() {
   try {
-    core.info('Fetching Twitter Data')
-    const res: TwitterResponse = await ky(TWITTER_API_URL).json()
-    core.info('Successfully fetched Twitter Data')
+    core.info('Fetching Mastodon Data')
+    const res = await masto.v2.search.list({
+      accountId: MASTODON_ACCOUNT_ID,
+      q: 'lekoarts',
+      type: 'accounts',
+    })
+    core.info('Successfully fetched Mastodon Data')
 
-    return res
+    return {
+      followersCount: res.accounts[0].followersCount,
+      tootsCount: res.accounts[0].statusesCount,
+    }
   }
   catch (err) {
-    core.warning(`[fetchTwitterData]: ${err}`)
+    core.warning(`[fetchMastodonData]: ${err}`)
 
     return undefined
   }
@@ -112,11 +115,11 @@ async function run() {
   core.info('Starting with the action...')
 
   const github = await fetchGithubData()
-  const twitter = await fetchTwitterData()
+  const mastodon = await fetchMastodonData()
   const now = new Date().toISOString()
 
   let GITHUB_INPUT: GitHubInsert[] | undefined
-  let TWITTER_INPUT: TwitterInsert | undefined
+  let MASTODON_INPUT: MastodonInsert | undefined
 
   if (github) {
     GITHUB_INPUT = github.data.search.nodes.map(repo => ({
@@ -127,19 +130,12 @@ async function run() {
     }))
   }
 
-  if (twitter) {
-    TWITTER_INPUT = {
+  if (mastodon) {
+    MASTODON_INPUT = {
       createdAt: now,
-      followers: twitter.followers_count,
-      tweets: twitter.tweet_count,
+      followersCount: mastodon.followersCount,
+      tootsCount: mastodon.tootsCount,
     }
-  }
-
-  if (TWITTER_INPUT) {
-    core.info('Pushing Twitter data to supabase')
-    const { error: twitterInsertError } = await supabase.from('twitter').insert(TWITTER_INPUT)
-    if (twitterInsertError)
-      core.setFailed(`[twitterInsert]: ${twitterInsertError}`)
   }
 
   if (GITHUB_INPUT) {
@@ -149,7 +145,24 @@ async function run() {
       core.setFailed(`[githubInsert]: ${githubInsertError}`)
   }
 
+  if (MASTODON_INPUT) {
+    core.info('Pushing Mastodon data to supabase')
+    const { error: mastodonInsertError } = await supabase.from('mastodon').insert(MASTODON_INPUT)
+    if (mastodonInsertError)
+      core.setFailed(`[mastodonInsert]: ${mastodonInsertError}`)
+  }
+
   core.info('Done 🎉')
 }
 
 run()
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function debug() {
+  const mastodon = await fetchMastodonData()
+
+  // eslint-disable-next-line no-console
+  console.log(mastodon)
+}
+
+// debug()
