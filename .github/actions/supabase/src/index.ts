@@ -19,7 +19,7 @@ if (!SUPABASE_API_URL || !SUPABASE_API_KEY || !GITHUB_TOKEN || !MASTODON_ACCESS_
 
 const GITHUB_QUERY = `
 query {
-  search(query: "user:LekoArts topic:lekoarts-gatsby-themes", type: REPOSITORY, first: 50) {
+  search(query: "user:LekoArts topic:lekoarts-oss", type: REPOSITORY, first: 50) {
     nodes {
       ... on Repository {
         stargazers {
