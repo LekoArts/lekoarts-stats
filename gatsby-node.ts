@@ -1,6 +1,6 @@
 import type { GatsbyNode } from 'gatsby'
 import { createClient } from '@supabase/supabase-js'
-import type { IGitHubEntry, ITwitterEntry } from './src/types'
+import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from './src/types'
 
 if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY)
   throw new Error('Missing environment variables')
@@ -25,6 +25,22 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       followers: Int!
       tweets: Int!
     }
+
+    type Trakt implements Node {
+      id: ID!
+      createdAt: Date! @dateformat
+      moviesWatched: Int!
+      showsWatched: Int!
+      episodesWatched: Int!
+      ratings: Int!
+    }
+
+    type Mastodon implements Node {
+      id: ID!
+      createdAt: Date! @dateformat
+      followersCount: Int!
+      tootsCount: Int!
+    }
   `)
 }
 
@@ -41,8 +57,20 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNo
   if (github.error)
     reporter.panicOnBuild(github.error as unknown as Error)
 
+  const mastodon = await supabase.from('mastodon').select()
+
+  if (mastodon.error)
+    reporter.panicOnBuild(mastodon.error as unknown as Error)
+
+  const trakt = await supabase.from('trakt').select()
+
+  if (trakt.error)
+    reporter.panicOnBuild(trakt.error as unknown as Error)
+
   const twitterData = twitter.data as ITwitterEntry[]
   const githubData = github.data as IGitHubEntry[]
+  const mastodonData = mastodon.data as IMastodonEntry[]
+  const traktData = trakt.data as ITraktEntry[]
 
   twitterData.forEach((t) => {
     const node = {
@@ -70,6 +98,38 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({ actions, createNo
         type: 'Github',
         content: JSON.stringify(g),
         contentDigest: createContentDigest(g),
+      },
+    }
+
+    createNode(node)
+  })
+
+  mastodonData.forEach((m) => {
+    const node = {
+      ...m,
+      id: createNodeId(`mastodon-${m.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: 'Mastodon',
+        content: JSON.stringify(m),
+        contentDigest: createContentDigest(m),
+      },
+    }
+
+    createNode(node)
+  })
+
+  traktData.forEach((t) => {
+    const node = {
+      ...t,
+      id: createNodeId(`trakt-${t.id}`),
+      parent: null,
+      children: [],
+      internal: {
+        type: 'Trakt',
+        content: JSON.stringify(t),
+        contentDigest: createContentDigest(t),
       },
     }
 

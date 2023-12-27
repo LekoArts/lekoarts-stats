@@ -15,4 +15,7 @@ jobs:
           SUPABASE_API_URL: ${{ secrets.SUPABASE_API_URL }}
           SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TWITTER_API_URL: ${{ secrets.TWITTER_API_URL }}
+          MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          MASTODON_ACCOUNT_ID: ${{ vars.MASTODON_ACCOUNT_ID }}
+          TRAKT_USERNAME: ${{ vars.TRAKT_USERNAME }}

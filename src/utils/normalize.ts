@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import type { IGitHubEntry, ITwitterEntry } from '../types'
+import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '../types'
 
 /**
  * _.mapValues: https://lodash.com/docs/4.17.15#mapValues
@@ -38,7 +38,51 @@ export function nivoGithubFormatter(data: GitHubFormatterDataInput, name: keyof 
   return nivoData.reverse()
 }
 
-export function nivoTwitterFormatter(data: ITwitterEntry[], name: keyof ITwitterEntry) {
+export function nivoTwitterFormatter(data: ITwitterEntry[]) {
+  const followersValues = data.map(e => ({
+    x: e.createdAt,
+    y: e.followers,
+  }))
+  const tweetsValues = data.map(e => ({
+    x: e.createdAt,
+    y: e.tweets,
+  }))
+
+  return [
+    {
+      id: 'followers',
+      data: followersValues,
+    },
+    {
+      id: 'tweets',
+      data: tweetsValues,
+    },
+  ]
+}
+
+export function nivoMastodonFormatter(data: IMastodonEntry[]) {
+  const followersValues = data.map(e => ({
+    x: e.createdAt,
+    y: e.followersCount,
+  }))
+  const tweetsValues = data.map(e => ({
+    x: e.createdAt,
+    y: e.tootsCount,
+  }))
+
+  return [
+    {
+      id: 'followers',
+      data: followersValues,
+    },
+    {
+      id: 'toots',
+      data: tweetsValues,
+    },
+  ]
+}
+
+export function nivoTraktFormatter(data: ITraktEntry[], name: keyof ITraktEntry) {
   const values = data.map(e => ({
     x: e.createdAt,
     y: e[name],

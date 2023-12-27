@@ -13,6 +13,22 @@ export interface ITwitterEntry {
   createdAt: string
 }
 
+export interface ITraktEntry {
+  id: string
+  moviesWatched: number
+  showsWatched: number
+  episodesWatched: number
+  ratings: number
+  createdAt: string
+}
+
+export interface IMastodonEntry {
+  id: string
+  followersCount: number
+  tootsCount: number
+  createdAt: string
+}
+
 export interface IHomepageDataProps {
   site: {
     siteMetadata: {
@@ -21,6 +37,8 @@ export interface IHomepageDataProps {
       repo: string
       github: string
       twitter: string
+      mastodon: string
+      trakt: string
       homepage: string
       image: string
       description: string
@@ -33,5 +51,11 @@ export interface IHomepageDataProps {
   }
   twitter: {
     nodes: ITwitterEntry[]
+  }
+  mastodon: {
+    nodes: IMastodonEntry[]
+  }
+  trakt: {
+    nodes: ITraktEntry[]
   }
 }

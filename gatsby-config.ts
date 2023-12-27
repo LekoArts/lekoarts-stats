@@ -8,6 +8,8 @@ const config: GatsbyConfig = {
     repo: 'https://github.com/LekoArts/lekoarts-stats',
     github: 'https://www.github.com/LekoArts',
     twitter: 'https://www.twitter.com/lekoarts_de',
+    mastodon: 'https://mastodon.social/@lekoarts',
+    trakt: 'https://trakt.tv/users/arsaurea',
     homepage: 'https://www.lekoarts.de',
     image: '/social.png',
     author: '@lekoarts_de',
