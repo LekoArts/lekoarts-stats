@@ -1,6 +1,8 @@
-import { nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
+import { nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
 import { data as githubData } from './__fixtures__/github'
 import { data as twitterData } from './__fixtures__/twitter'
+import { data as mastodonData } from './__fixtures__/mastodon'
+import { data as traktData } from './__fixtures__/trakt'
 
 describe('normalizeGithub', () => {
   it('should flatten and group data by name', () => {
@@ -53,7 +55,7 @@ describe('nivoGithubFormatter', () => {
 
 describe('nivoTwitterFormatter', () => {
   it('should output correct shape via input', () => {
-    const nivo = nivoTwitterFormatter(twitterData, 'followers')
+    const nivo = nivoTwitterFormatter(twitterData)
 
     const objectShape = [
       {
@@ -72,6 +74,60 @@ describe('nivoTwitterFormatter', () => {
           },
         ],
         id: 'followers',
+      },
+    ]
+
+    expect(nivo).toMatchSnapshot()
+    expect(nivo).toEqual(expect.arrayContaining(objectShape))
+  })
+})
+
+describe('nivoMastodonFormatter', () => {
+  it('should output correct shape via input', () => {
+    const nivo = nivoMastodonFormatter(mastodonData)
+
+    const objectShape = [
+      {
+        data: [
+          {
+            x: '2020-07-16',
+            y: 1126,
+          },
+          {
+            x: '2020-07-17',
+            y: 1137,
+          },
+          {
+            x: '2020-07-18',
+            y: 1150,
+          },
+        ],
+        id: 'followers',
+      },
+    ]
+
+    expect(nivo).toMatchSnapshot()
+    expect(nivo).toEqual(expect.arrayContaining(objectShape))
+  })
+})
+
+describe('nivoTraktFormatter', () => {
+  it('should output correct shape via input', () => {
+    const nivo = nivoTraktFormatter(traktData, 'moviesWatched')
+
+    const objectShape = [
+      {
+        data: [
+          {
+            x: '2020-07-16',
+            y: 380,
+          },
+          {
+            x: '2020-07-17',
+            y: 375,
+          },
+        ],
+        id: 'moviesWatched',
       },
     ]
 

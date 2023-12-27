@@ -44,6 +44,63 @@ exports[`nivoGithubFormatter > should output correct shape via input 1`] = `
 ]
 `;
 
+exports[`nivoMastodonFormatter > should output correct shape via input 1`] = `
+[
+  {
+    "data": [
+      {
+        "x": "2020-07-16",
+        "y": 1126,
+      },
+      {
+        "x": "2020-07-17",
+        "y": 1137,
+      },
+      {
+        "x": "2020-07-18",
+        "y": 1150,
+      },
+    ],
+    "id": "followers",
+  },
+  {
+    "data": [
+      {
+        "x": "2020-07-16",
+        "y": 880,
+      },
+      {
+        "x": "2020-07-17",
+        "y": 882,
+      },
+      {
+        "x": "2020-07-18",
+        "y": 890,
+      },
+    ],
+    "id": "toots",
+  },
+]
+`;
+
+exports[`nivoTraktFormatter > should output correct shape via input 1`] = `
+[
+  {
+    "data": [
+      {
+        "x": "2020-07-16",
+        "y": 380,
+      },
+      {
+        "x": "2020-07-17",
+        "y": 375,
+      },
+    ],
+    "id": "moviesWatched",
+  },
+]
+`;
+
 exports[`nivoTwitterFormatter > should output correct shape via input 1`] = `
 [
   {
@@ -62,6 +119,23 @@ exports[`nivoTwitterFormatter > should output correct shape via input 1`] = `
       },
     ],
     "id": "followers",
+  },
+  {
+    "data": [
+      {
+        "x": "2020-07-16",
+        "y": 880,
+      },
+      {
+        "x": "2020-07-17",
+        "y": 882,
+      },
+      {
+        "x": "2020-07-18",
+        "y": 890,
+      },
+    ],
+    "id": "tweets",
   },
 ]
 `;

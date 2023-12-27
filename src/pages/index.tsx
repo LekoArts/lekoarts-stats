@@ -2,7 +2,7 @@ import * as React from 'react'
 import type { HeadFC, PageProps } from 'gatsby'
 import { graphql } from 'gatsby'
 import useDarkMode from 'use-dark-mode'
-import { nivoGithubFormatter, nivoTwitterFormatter, normalizeGithub } from '../utils/normalize'
+import { nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../utils/normalize'
 import type { IHomepageDataProps } from '../types'
 import Line from '../components/line'
 import * as styles from '../styles/pages-index.css'
@@ -16,7 +16,7 @@ import '@fontsource/ibm-plex-mono/500-italic.css'
 import '@fontsource/ibm-plex-mono/600.css'
 import '@fontsource/ibm-plex-mono/700.css'
 
-const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, twitter } }) => {
+const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, twitter, mastodon, trakt } }) => {
   const modes = useDarkMode(false, {
     classNameDark: 'dark',
     classNameLight: 'light',
@@ -36,14 +36,25 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
     },
   ]
 
-  const twitterContent = [
+  const socialMediaContent = [
     {
-      heading: 'Followers',
-      data: nivoTwitterFormatter(twitter.nodes, 'followers'),
+      heading: 'Twitter',
+      data: nivoTwitterFormatter(twitter.nodes),
     },
     {
-      heading: 'Tweets',
-      data: nivoTwitterFormatter(twitter.nodes, 'tweets'),
+      heading: 'Mastodon',
+      data: nivoMastodonFormatter(mastodon.nodes),
+    },
+  ]
+
+  const traktContent = [
+    {
+      heading: 'Movies',
+      data: nivoTraktFormatter(trakt.nodes, 'moviesWatched'),
+    },
+    {
+      heading: 'Shows',
+      data: nivoTraktFormatter(trakt.nodes, 'showsWatched'),
     },
   ]
 
@@ -82,9 +93,21 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
           ))}
         </section>
         <div className={atoms({ paddingY: '6x', paddingX: 'none' })} />
-        <h2 className={atoms({ marginY: 'none' })}>Twitter</h2>
+        <h2 className={atoms({ marginY: 'none' })}>Social Media</h2>
         <section className={styles.content}>
-          {twitterContent.map(g => (
+          {socialMediaContent.map(g => (
+            <div key={g.heading}>
+              <h3 className={atoms({ color: { light: 'gray-700' } })}>{g.heading}</h3>
+              <div className={styles.lineContainer}>
+                <Line data={g.data} yScaleMin="auto" />
+              </div>
+            </div>
+          ))}
+        </section>
+        <div className={atoms({ paddingY: '6x', paddingX: 'none' })} />
+        <h2 className={atoms({ marginY: 'none' })}>Trakt</h2>
+        <section className={styles.content}>
+          {traktContent.map(g => (
             <div key={g.heading}>
               <h3 className={atoms({ color: { light: 'gray-700' } })}>{g.heading}</h3>
               <div className={styles.lineContainer}>
@@ -103,10 +126,15 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
         Follow me on{' '}
         <a className={linkStyle} href={meta.github}>
           GitHub
-        </a>{' '}
-        or{' '}
+        </a>{' '}•{' '}
         <a className={linkStyle} href={meta.twitter}>
           Twitter
+        </a>{' '}•{' '}
+        <a className={linkStyle} href={meta.mastodon}>
+          Mastodon
+        </a>{' '}•{' '}
+        <a className={linkStyle} href={meta.trakt}>
+          Trakt
         </a>
         . <br />
         Data is pulled daily. Last build: {site.buildTime}
@@ -150,6 +178,8 @@ export const query = graphql`
         repo
         github
         twitter
+        mastodon
+        trakt
         homepage
         image
         description
@@ -171,6 +201,24 @@ export const query = graphql`
         id
         tweets
         followers
+        createdAt(formatString: "YYYY-MM-DD")
+      }
+    }
+    mastodon: allMastodon {
+      nodes {
+        id
+        tootsCount
+        followersCount
+        createdAt(formatString: "YYYY-MM-DD")
+      }
+    }
+    trakt: allTrakt {
+      nodes {
+        id
+        moviesWatched
+        ratings
+        showsWatched
+        episodesWatched
         createdAt(formatString: "YYYY-MM-DD")
       }
     }
