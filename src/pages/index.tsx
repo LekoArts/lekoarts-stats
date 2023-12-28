@@ -204,7 +204,7 @@ export const query = graphql`
         createdAt(formatString: "YYYY-MM-DD")
       }
     }
-    mastodon: allMastodon {
+    mastodon: allMastodon(sort: { createdAt: ASC }) {
       nodes {
         id
         tootsCount
@@ -212,7 +212,7 @@ export const query = graphql`
         createdAt(formatString: "YYYY-MM-DD")
       }
     }
-    trakt: allTrakt {
+    trakt: allTrakt(sort: { createdAt: ASC }) {
       nodes {
         id
         moviesWatched
