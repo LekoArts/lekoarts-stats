@@ -137,7 +137,7 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
           Trakt
         </a>
         . <br />
-        Data is pulled daily. Last build: {site.buildTime}
+        Data is pulled monthly. Last build: {site.buildTime}
       </footer>
     </React.Fragment>
   )
