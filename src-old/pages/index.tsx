@@ -2,19 +2,12 @@ import * as React from 'react'
 import type { HeadFC, PageProps } from 'gatsby'
 import { graphql } from 'gatsby'
 import useDarkMode from 'use-dark-mode'
-import { nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../utils/normalize'
+import { nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../../src/utils/normalize'
 import type { IHomepageDataProps } from '../types'
-import Line from '../components/line'
+import Line from '../../src/components/line'
 import * as styles from '../styles/pages-index.css'
 import { atoms } from '../styles/sprinkles.css'
 import { linkStyle } from '../styles/global.css'
-
-import '@fontsource/ibm-plex-mono/400.css'
-import '@fontsource/ibm-plex-mono/400-italic.css'
-import '@fontsource/ibm-plex-mono/500.css'
-import '@fontsource/ibm-plex-mono/500-italic.css'
-import '@fontsource/ibm-plex-mono/600.css'
-import '@fontsource/ibm-plex-mono/700.css'
 
 const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, twitter, mastodon, trakt } }) => {
   const modes = useDarkMode(false, {
@@ -144,30 +137,6 @@ const Index: React.FC<PageProps<IHomepageDataProps>> = ({ data: { site, github, 
 }
 
 export default Index
-
-export const Head: HeadFC<IHomepageDataProps> = ({ data: { site: { siteMetadata: meta } } }) => (
-  <React.Fragment>
-    <title>{meta.title}</title>
-    <meta name="description" content={meta.description} />
-    <meta name="og:title" content={meta.title} />
-    <meta name="og:url" content={meta.url} />
-    <meta name="og:description" content={meta.description} />
-    <meta name="og:image" content={`${meta.url}${meta.image}`} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image:alt" content={meta.description} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={meta.title} />
-    <meta name="twitter:url" content={meta.url} />
-    <meta name="twitter:description" content={meta.description} />
-    <meta name="twitter:image" content={`${meta.url}${meta.image}`} />
-    <meta name="twitter:image:alt" content={meta.description} />
-    <meta name="twitter:creator" content={meta.author} />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📈</text></svg>"
-    />
-  </React.Fragment>
-)
 
 export const query = graphql`
   query IndexQuery {

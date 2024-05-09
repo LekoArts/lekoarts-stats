@@ -1,6 +1,6 @@
 import type { GatsbyNode } from 'gatsby'
 import { createClient } from '@supabase/supabase-js'
-import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from './src/types'
+import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from './src-old/types'
 
 if (!process.env.SUPABASE_API_URL || !process.env.SUPABASE_API_KEY)
   throw new Error('Missing environment variables')

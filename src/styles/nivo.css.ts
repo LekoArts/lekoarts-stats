@@ -1,8 +1,8 @@
-import { composeStyles, style } from '@vanilla-extract/css'
-import { atoms } from './sprinkles.css'
+import { style } from '@vanilla-extract/css'
+import { sprinkles } from './sprinkles.css'
 
-export const header = composeStyles(
-  atoms({
+export const header = style([
+  sprinkles({
     fontWeight: 'semibold',
     color: {
       light: 'black',
@@ -18,4 +18,4 @@ export const header = composeStyles(
     borderBottomWidth: '1px',
     borderBottomStyle: 'solid',
   }),
-)
+])

@@ -1,7 +1,7 @@
-import { createAtomicStyles, createAtomsFn } from '@vanilla-extract/sprinkles'
+import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 import { breakpoints, vars } from './vars.css'
 
-const staticStyles = createAtomicStyles({
+const staticStyles = defineProperties({
   properties: {
     fontFamily: vars.fontFamily,
     boxShadow: vars.shadow,
@@ -9,7 +9,7 @@ const staticStyles = createAtomicStyles({
   },
 })
 
-const responsiveStyles = createAtomicStyles({
+const responsiveStyles = defineProperties({
   conditions: {
     mobile: {},
     tablet: { '@media': `screen and (min-width: ${breakpoints.tablet})` },
@@ -42,10 +42,10 @@ const responsiveStyles = createAtomicStyles({
   },
 })
 
-const colorModeStyles = createAtomicStyles({
+const colorModeStyles = defineProperties({
   conditions: {
     light: {},
-    dark: { selector: '.dark &' },
+    dark: { selector: '[data-theme="dark"] &' },
   },
   defaultCondition: 'light',
   properties: {
@@ -56,6 +56,6 @@ const colorModeStyles = createAtomicStyles({
   },
 })
 
-export const atoms = createAtomsFn(responsiveStyles, colorModeStyles, staticStyles)
+export const sprinkles = createSprinkles(responsiveStyles, colorModeStyles, staticStyles)
 
-export type Atoms = Parameters<typeof atoms>[0]
+export type Sprinkles = Parameters<typeof sprinkles>[0]

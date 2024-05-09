@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '../types'
+import { groupBy, mapValues, omit } from 'lodash-es'
+import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '../../src-old/types'
 
 /**
  * _.mapValues: https://lodash.com/docs/4.17.15#mapValues
@@ -8,7 +8,7 @@ import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '.
  */
 
 export function normalizeGithub(data: IGitHubEntry[], name: keyof IGitHubEntry) {
-  return _.mapValues(_.groupBy(data, name), list => list.map(entry => _.omit(entry, name))) as GitHubFormatterDataInput
+  return mapValues(groupBy(data, name), list => list.map(entry => omit(entry, name))) as GitHubFormatterDataInput
 }
 
 interface GitHubFormatterDataInput {
