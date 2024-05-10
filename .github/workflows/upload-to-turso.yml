@@ -1,19 +1,23 @@
-name: Upload to Supabase
+name: Upload to Turso
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 1 * *'
+    - cron: '0 12 * * MON'
 jobs:
   pushAndPull:
     name: Push and Pull Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
       - name: Push and Pull Data
-        uses: ./.github/actions/supabase
+        run: npm run db:insert
         env:
-          SUPABASE_API_URL: ${{ secrets.SUPABASE_API_URL }}
-          SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
           TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}

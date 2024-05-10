@@ -1,8 +1,21 @@
-import { nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
+import { formatCreatedAt, nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
 import { data as githubData } from './__fixtures__/github'
 import { data as twitterData } from './__fixtures__/twitter'
 import { data as mastodonData } from './__fixtures__/mastodon'
 import { data as traktData } from './__fixtures__/trakt'
+
+describe('formatCreatedAt', () => {
+  it('should format db date', () => {
+    const formatted = formatCreatedAt('2020-07-17 14:02:07.078+00')
+
+    expect(formatted).toBe('2020-07-17')
+  })
+  it('should format toISOString date', () => {
+    const formatted = formatCreatedAt('2024-05-10T16:07:39.210Z')
+
+    expect(formatted).toBe('2024-05-10')
+  })
+})
 
 describe('normalizeGithub', () => {
   it('should flatten and group data by name', () => {

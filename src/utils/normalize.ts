@@ -8,9 +8,10 @@ import { groupBy, mapValues, omit } from 'lodash-es'
 
 /**
  * Formats 2020-07-18 14:02:07.078+00 to 2020-07-18
+ * Format 2024-05-10T16:07:39.210Z to 2024-05-10
  */
 export function formatCreatedAt(date: string) {
-  return date.split(' ')[0]
+  return date.split('T')[0].split(' ')[0]
 }
 
 interface IGitHubEntry {
