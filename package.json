@@ -15,12 +15,14 @@
     "lint:fix": "pnpm lint --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "typecheck": "tsc --noEmit"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.6.0",
     "@astrojs/react": "^3.3.3",
     "@fontsource/ibm-plex-mono": "^4.5.13",
+    "@libsql/client": "^0.6.0",
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
     "@supabase/supabase-js": "^2.2.3",
@@ -29,6 +31,8 @@
     "@vanilla-extract/vite-plugin": "^4.0.9",
     "astro": "^4.8.0",
     "astro-themes": "^0.2.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.10",
     "lodash-es": "^4.17.21",
     "polished": "^4.3.1",
     "react": "^18.2.0",
@@ -40,7 +44,9 @@
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
+    "drizzle-kit": "^0.21.0",
     "eslint": "^8.31.0",
+    "tsx": "^4.9.3",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }

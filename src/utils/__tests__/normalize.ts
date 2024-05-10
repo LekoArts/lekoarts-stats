@@ -12,16 +12,16 @@ describe('normalizeGithub', () => {
     expect(normalized).toMatchSnapshot()
     expect(namedEntry).toStrictEqual([
       {
-        createdAt: '2020-07-17',
+        createdAt: '2020-07-17 14:02:07.078+00',
         forks: 154,
         stars: 517,
-        id: '2',
+        id: 2,
       },
       {
-        createdAt: '2020-07-18',
+        createdAt: '2020-07-18 14:02:07.078+00',
         forks: 153,
         stars: 517,
-        id: '5',
+        id: 5,
       },
     ])
   })
