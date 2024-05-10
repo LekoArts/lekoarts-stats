@@ -1,20 +1,23 @@
 import 'dotenv/config'
 import ky from 'ky'
 import * as core from '@actions/core'
-import { createClient } from '@supabase/supabase-js'
 import { createRestAPIClient } from 'masto'
+import { createClient } from '@libsql/client/web'
+import { drizzle } from 'drizzle-orm/libsql'
+import { githubTable, mastodonTable, traktTable } from '@db/schema'
+import type { InsertGithub, InsertMastodon, InsertTrakt } from '@db/schema'
 
 const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 const TRAKT_API = 'https://api.trakt.tv'
-const SUPABASE_API_URL = process.env.SUPABASE_API_URL
-const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY
+const TURSO_DATABASE_URL = process.env.TURSO_DATABASE_URL
+const TURSO_AUTH_TOKEN = process.env.TURSO_AUTH_TOKEN
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 const MASTODON_ACCESS_TOKEN = process.env.MASTODON_ACCESS_TOKEN
 const MASTODON_ACCOUNT_ID = process.env.MASTODON_ACCOUNT_ID
 const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME
 
-if (!SUPABASE_API_URL || !SUPABASE_API_KEY || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME)
+if (!TURSO_DATABASE_URL || !TURSO_AUTH_TOKEN || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME)
   throw new Error('Missing environment variables')
 
 const GITHUB_QUERY = `
@@ -98,28 +101,12 @@ interface TraktResponse {
   }
 }
 
-interface GitHubInsert {
-  createdAt: string
-  forks: number
-  name: string
-  stars: number
-}
+const client = createClient({
+  url: TURSO_DATABASE_URL,
+  authToken: TURSO_AUTH_TOKEN,
+})
 
-interface MastodonInsert {
-  createdAt: string
-  followersCount: number
-  tootsCount: number
-}
-
-interface TraktInsert {
-  createdAt: string
-  moviesWatched: number
-  showsWatched: number
-  episodesWatched: number
-  ratings: number
-}
-
-const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
+const db = drizzle(client)
 
 const masto = createRestAPIClient({
   url: 'https://mastodon.social',
@@ -205,11 +192,11 @@ async function run() {
   const github = await fetchGithubData()
   const mastodon = await fetchMastodonData()
   const trakt = await fetchTraktData()
-  const now = new Date().toISOString()
+  const now = new Date().toISOString().replace('T', ' ').replace('Z', '+00')
 
-  let GITHUB_INPUT: GitHubInsert[] | undefined
-  let MASTODON_INPUT: MastodonInsert | undefined
-  let TRAKT_INPUT: TraktInsert | undefined
+  let GITHUB_INPUT: InsertGithub[] | undefined
+  let MASTODON_INPUT: InsertMastodon | undefined
+  let TRAKT_INPUT: InsertTrakt | undefined
 
   if (github) {
     GITHUB_INPUT = github.data.search.nodes.map(repo => ({
@@ -217,7 +204,7 @@ async function run() {
       forks: repo.forkCount,
       name: repo.name,
       stars: repo.stargazers.totalCount,
-    }))
+    } satisfies InsertGithub))
   }
 
   if (mastodon) {
@@ -225,7 +212,7 @@ async function run() {
       createdAt: now,
       followersCount: mastodon.followersCount,
       tootsCount: mastodon.tootsCount,
-    }
+    } satisfies InsertMastodon
   }
 
   if (trakt) {
@@ -235,28 +222,37 @@ async function run() {
       showsWatched: trakt.showsWatched,
       episodesWatched: trakt.episodesWatched,
       ratings: trakt.ratings,
-    }
+    } satisfies InsertTrakt
   }
 
   if (GITHUB_INPUT) {
-    core.info('Pushing GitHub data to supabase')
-    const { error: githubInsertError } = await supabase.from('github').insert(GITHUB_INPUT)
-    if (githubInsertError)
-      core.setFailed(`[githubInsert]: ${githubInsertError}`)
+    core.info('Pushing GitHub data to Turso')
+    try {
+      await db.insert(githubTable).values(GITHUB_INPUT)
+    }
+    catch (e) {
+      core.setFailed(`[githubInsert]: ${e}`)
+    }
   }
 
   if (MASTODON_INPUT) {
-    core.info('Pushing Mastodon data to supabase')
-    const { error: mastodonInsertError } = await supabase.from('mastodon').insert(MASTODON_INPUT)
-    if (mastodonInsertError)
-      core.setFailed(`[mastodonInsert]: ${mastodonInsertError}`)
+    core.info('Pushing Mastodon data to Turso')
+    try {
+      await db.insert(mastodonTable).values(MASTODON_INPUT)
+    }
+    catch (e) {
+      core.setFailed(`[mastodonInsert]: ${e}`)
+    }
   }
 
   if (TRAKT_INPUT) {
-    core.info('Pushing Trakt data to supabase')
-    const { error: traktInsertError } = await supabase.from('trakt').insert(TRAKT_INPUT)
-    if (traktInsertError)
-      core.setFailed(`[traktInsert]: ${traktInsertError}`)
+    core.info('Pushing Trakt data to Turso')
+    try {
+      await db.insert(traktTable).values(TRAKT_INPUT)
+    }
+    catch (e) {
+      core.setFailed(`[traktInsert]: ${e}`)
+    }
   }
 
   core.info('Done 🎉')

@@ -1,9 +1,9 @@
-import { composeStyles, style } from '@vanilla-extract/css'
-import { atoms } from './sprinkles.css'
+import { style } from '@vanilla-extract/css'
+import { sprinkles } from './sprinkles.css'
 import { breakpoints, vars } from './vars.css'
 
-export const header = composeStyles(
-  atoms({
+export const header = style([
+  sprinkles({
     paddingY: {
       mobile: '3x',
       desktop: '5x',
@@ -25,10 +25,10 @@ export const header = composeStyles(
     borderBottomStyle: 'solid',
     borderBottomWidth: '1px',
   }),
-)
+])
 
-export const button = composeStyles(
-  atoms({
+export const button = style([
+  sprinkles({
     paddingY: '2x',
     paddingX: '4x',
     background: {
@@ -47,10 +47,10 @@ export const button = composeStyles(
     appearance: 'none',
     cursor: 'pointer',
   }),
-)
+])
 
-export const content = composeStyles(
-  atoms({
+export const content = style([
+  sprinkles({
     display: 'grid',
   }),
   style({
@@ -62,7 +62,7 @@ export const content = composeStyles(
       },
     },
   }),
-)
+])
 
 export const lineContainer = style({
   'height': `calc(${vars.chartHeight.sm} * 1px)`,
@@ -73,8 +73,8 @@ export const lineContainer = style({
   },
 })
 
-export const footer = composeStyles(
-  atoms({
+export const footer = style([
+  sprinkles({
     paddingY: {
       mobile: '3x',
       desktop: '5x',
@@ -97,4 +97,4 @@ export const footer = composeStyles(
     borderTopStyle: 'solid',
     borderTopWidth: '1px',
   }),
-)
+])

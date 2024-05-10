@@ -2,13 +2,13 @@ name: Build site on Netlify
 on:
   workflow_dispatch:
   schedule:
-    - cron: '10 12 1 * *'
+    - cron: '10 12 * * MON'
 jobs:
   buildSite:
     name: Build site on Netlify
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: curl
         uses: wei/curl@v1
         with:

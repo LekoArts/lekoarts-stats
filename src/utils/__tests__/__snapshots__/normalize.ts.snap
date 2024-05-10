@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`nivoGithubFormatter > should output correct shape via input 1`] = `
 [
@@ -144,43 +144,43 @@ exports[`normalizeGithub > should flatten and group data by name 1`] = `
 {
   "gatsby-starter-minimal-blog": [
     {
-      "createdAt": "2020-07-17",
+      "createdAt": "2020-07-17 14:02:07.078+00",
       "forks": 154,
-      "id": "2",
+      "id": 2,
       "stars": 517,
     },
     {
-      "createdAt": "2020-07-18",
+      "createdAt": "2020-07-18 14:02:07.078+00",
       "forks": 153,
-      "id": "5",
+      "id": 5,
       "stars": 517,
     },
   ],
   "gatsby-starter-portfolio-bella": [
     {
-      "createdAt": "2020-07-17",
+      "createdAt": "2020-07-17 14:02:07.078+00",
       "forks": 19,
-      "id": "3",
+      "id": 3,
       "stars": 113,
     },
     {
-      "createdAt": "2020-07-18",
+      "createdAt": "2020-07-18 14:02:07.078+00",
       "forks": 18,
-      "id": "6",
+      "id": 6,
       "stars": 113,
     },
   ],
   "gatsby-themes": [
     {
-      "createdAt": "2020-07-17",
+      "createdAt": "2020-07-17 14:02:07.078+00",
       "forks": 243,
-      "id": "1",
+      "id": 1,
       "stars": 745,
     },
     {
-      "createdAt": "2020-07-18",
+      "createdAt": "2020-07-18 14:02:07.078+00",
       "forks": 245,
-      "id": "4",
+      "id": 4,
       "stars": 749,
     },
   ],

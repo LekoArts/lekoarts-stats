@@ -1,0 +1,114 @@
+---
+import Layout from "@layouts/layout.astro"
+import * as styles from "@styles/pages-index.css"
+import { sprinkles } from "@styles/sprinkles.css"
+import { linkStyle } from "@styles/global.css"
+import { siteMetadata as meta } from "@utils/constants";
+import { nivoTraktFormatter, nivoGithubFormatter, nivoMastodonFormatter, nivoTwitterFormatter, normalizeGithub } from "@utils/normalize"
+import Line from "@components/line"
+import { db } from "@db/db"
+import { traktTable, twitterTable, githubTable, mastodonTable } from "@db/schema"
+
+const trakt = await db.select().from(traktTable).orderBy(traktTable.createdAt)
+const twitter = await db.select().from(twitterTable).orderBy(twitterTable.createdAt)
+const github = await db.select().from(githubTable).orderBy(githubTable.createdAt)
+const mastodon = await db.select().from(mastodonTable).orderBy(mastodonTable.createdAt)
+
+const normalizedGithubData = normalizeGithub(github, 'name')
+
+const githubContent = [
+    {
+      heading: 'Stars',
+      data: nivoGithubFormatter(normalizedGithubData, 'stars'),
+    },
+    {
+      heading: 'Forks',
+      data: nivoGithubFormatter(normalizedGithubData, 'forks'),
+    },
+  ]
+
+  const socialMediaContent = [
+    {
+      heading: 'Twitter',
+      data: nivoTwitterFormatter(twitter),
+    },
+    {
+      heading: 'Mastodon',
+      data: nivoMastodonFormatter(mastodon),
+    },
+  ]
+
+const traktContent = [
+	{
+		heading: 'Movies',
+		data: nivoTraktFormatter(trakt, 'moviesWatched'),
+	},
+	{
+		heading: 'Shows',
+		data: nivoTraktFormatter(trakt, 'showsWatched'),
+	},
+]
+---
+
+<Layout>
+	<header class={styles.header}>
+		<h1 class={sprinkles({ margin: 'none' })}>{meta.title}</h1>
+		<div class={sprinkles({ display: 'flex', alignItems: 'center' })}>
+			<a class={linkStyle} href={meta.repo}>
+				GitHub
+			</a>
+		</div>
+	</header>
+	<main
+		class={sprinkles({
+			paddingY: { mobile: '3x', desktop: '5x' },
+			paddingX: { mobile: '4x', desktop: '6x' },
+		})}
+	>
+		<h2 class={sprinkles({ marginY: 'none' })}>GitHub</h2>
+		<section class={styles.content}>
+			{githubContent.map(g => (
+				<div>
+					<h3 class={sprinkles({ color: { light: 'gray-700' } })}>{g.heading}</h3>
+					<div class={styles.lineContainer}>
+						<Line data={g.data} client:only="react" />
+					</div>
+				</div>
+			))}
+		</section>
+		<div class={sprinkles({ paddingY: '6x', paddingX: 'none' })} />
+		<h2 class={sprinkles({ marginY: 'none' })}>Social Media</h2>
+		<section class={styles.content}>
+			{socialMediaContent.map(g => (
+				<div>
+					<h3 class={sprinkles({ color: { light: 'gray-700' } })}>{g.heading}</h3>
+					<div class={styles.lineContainer}>
+						<Line data={g.data} yScaleMin="auto" client:only="react" />
+					</div>
+				</div>
+			))}
+		</section>
+		<div class={sprinkles({ paddingY: '6x', paddingX: 'none' })} />
+		<h2 class={sprinkles({ marginY: 'none' })}>Trakt</h2>
+		<section class={styles.content}>
+			{traktContent.map(g => (
+				<div>
+					<h3 class={sprinkles({ color: { light: 'gray-700' } })}>{g.heading}</h3>
+					<div class={styles.lineContainer}>
+						<Line data={g.data} yScaleMin="auto" client:only="react" />
+					</div>
+				</div>
+			))}
+		</section>
+	</main>
+	<footer class={styles.footer}>
+		&copy; {new Date().getFullYear()} by{' '}
+		<a class={linkStyle} href={meta.homepage}>LekoArts</a>. All rights reserved. <br />
+		Follow me on
+		<a class={linkStyle} href={meta.github}>GitHub</a>{' '}•{' '}
+		<a class={linkStyle} href={meta.twitter}>Twitter</a>{' '}•{' '}
+		<a class={linkStyle} href={meta.mastodon}>Mastodon</a>{' '}•{' '}
+		<a class={linkStyle} href={meta.trakt}>Trakt</a>. <br />
+		Data is pulled monthly. Last update: {new Date().toLocaleDateString('en-CA')}
+	</footer>
+</Layout>

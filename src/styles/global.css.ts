@@ -17,7 +17,7 @@ globalStyle('html, body', {
   padding: 0,
 })
 
-globalStyle('.dark', {
+globalStyle('[data-theme="dark"] body', {
   background: vars.color['gray-900'],
   color: vars.color['gray-100'],
   vars: {
@@ -49,13 +49,13 @@ export const linkStyle = style({
     color: vars.color.primary,
   },
   'selectors': {
-    '.dark &': {
+    '[data-theme="dark"] &': {
       color: vars.color['gray-100'],
     },
   },
 })
 
-globalStyle('.dark :is(h1, h2, h3, h4, h5, h6)', {
+globalStyle('[data-theme="dark"] :is(h1, h2, h3, h4, h5, h6)', {
   color: vars.color.white,
 })
 

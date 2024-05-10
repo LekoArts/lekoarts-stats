@@ -1,5 +1,4 @@
-import _ from 'lodash'
-import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '../types'
+import { groupBy, mapValues, omit } from 'lodash-es'
 
 /**
  * _.mapValues: https://lodash.com/docs/4.17.15#mapValues
@@ -7,8 +6,24 @@ import type { IGitHubEntry, IMastodonEntry, ITraktEntry, ITwitterEntry } from '.
  * _.omit: https://lodash.com/docs/4.17.15#omit
  */
 
+/**
+ * Formats 2020-07-18 14:02:07.078+00 to 2020-07-18
+ * Format 2024-05-10T16:07:39.210Z to 2024-05-10
+ */
+export function formatCreatedAt(date: string) {
+  return date.split('T')[0].split(' ')[0]
+}
+
+interface IGitHubEntry {
+  id: number
+  name: string
+  createdAt: string
+  forks: number
+  stars: number
+}
+
 export function normalizeGithub(data: IGitHubEntry[], name: keyof IGitHubEntry) {
-  return _.mapValues(_.groupBy(data, name), list => list.map(entry => _.omit(entry, name))) as GitHubFormatterDataInput
+  return mapValues(groupBy(data, name), list => list.map(entry => omit(entry, name))) as GitHubFormatterDataInput
 }
 
 interface GitHubFormatterDataInput {
@@ -23,7 +38,7 @@ export function nivoGithubFormatter(data: GitHubFormatterDataInput, name: keyof 
     const entry = data[key]
 
     const values = entry.map(e => ({
-      x: e.createdAt,
+      x: formatCreatedAt(e.createdAt),
       y: e[name],
     }))
 
@@ -38,13 +53,20 @@ export function nivoGithubFormatter(data: GitHubFormatterDataInput, name: keyof 
   return nivoData.reverse()
 }
 
+interface ITwitterEntry {
+  id: number
+  createdAt: string
+  tweets: number
+  followers: number
+}
+
 export function nivoTwitterFormatter(data: ITwitterEntry[]) {
   const followersValues = data.map(e => ({
-    x: e.createdAt,
+    x: formatCreatedAt(e.createdAt),
     y: e.followers,
   }))
   const tweetsValues = data.map(e => ({
-    x: e.createdAt,
+    x: formatCreatedAt(e.createdAt),
     y: e.tweets,
   }))
 
@@ -60,13 +82,20 @@ export function nivoTwitterFormatter(data: ITwitterEntry[]) {
   ]
 }
 
+interface IMastodonEntry {
+  id: number
+  createdAt: string
+  followersCount: number
+  tootsCount: number
+}
+
 export function nivoMastodonFormatter(data: IMastodonEntry[]) {
   const followersValues = data.map(e => ({
-    x: e.createdAt,
+    x: formatCreatedAt(e.createdAt),
     y: e.followersCount,
   }))
   const tweetsValues = data.map(e => ({
-    x: e.createdAt,
+    x: formatCreatedAt(e.createdAt),
     y: e.tootsCount,
   }))
 
@@ -82,9 +111,18 @@ export function nivoMastodonFormatter(data: IMastodonEntry[]) {
   ]
 }
 
+interface ITraktEntry {
+  id: number
+  createdAt: string
+  moviesWatched: number
+  showsWatched: number
+  episodesWatched: number
+  ratings: number
+}
+
 export function nivoTraktFormatter(data: ITraktEntry[], name: keyof ITraktEntry) {
   const values = data.map(e => ({
-    x: e.createdAt,
+    x: formatCreatedAt(e.createdAt),
     y: e[name],
   }))
 

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import type { Serie } from '@nivo/line'
 import { ResponsiveLine } from '@nivo/line'
-import { commonProperties, sliceTooltip } from '../utils/nivo'
+import { sliceTooltip } from '@utils/nivo'
+import { nivoCommonProperties } from '@utils/constants'
 
 interface ILineProps {
   data: Serie[]
@@ -12,7 +13,7 @@ interface ILineProps {
 const Line = ({ data, yScaleMin = 0, yScaleMax = 'auto' }: ILineProps) => {
   return (
     <ResponsiveLine
-      {...commonProperties}
+      {...nivoCommonProperties}
       data={data}
       curve="linear"
       lineWidth={2}

@@ -1,23 +1,12 @@
 import * as React from 'react'
 import type { SliceTooltipProps } from '@nivo/line'
-import { atoms } from '../styles/sprinkles.css'
-import * as styles from '../styles/nivo.css'
-
-export const commonProperties = {
-  margin: {
-    top: 20,
-    right: 5,
-    bottom: 70,
-    left: 40,
-  },
-  animate: true,
-  enableSlices: 'x' as 'x' | 'y' | false,
-}
+import { sprinkles } from '@styles/sprinkles.css'
+import * as styles from '@styles/nivo.css'
 
 export const sliceTooltip = (slice: SliceTooltipProps['slice']) => {
   return (
     <div
-      className={atoms({
+      className={sprinkles({
         background: {
           light: 'white',
           dark: 'gray-900',
@@ -31,11 +20,11 @@ export const sliceTooltip = (slice: SliceTooltipProps['slice']) => {
       })}
     >
       <div className={styles.header}>Date: {slice.points[0].data.xFormatted.toString().replace(/"/g, '')}</div>
-      <div className={atoms({ padding: '0x' })}>
+      <div className={sprinkles({ padding: '0x' })}>
         {slice.points.map(point => (
           <div
             key={point.id}
-            className={atoms({
+            className={sprinkles({
               display: 'flex',
               flexDirection: 'row',
               marginX: 'none',
@@ -47,7 +36,7 @@ export const sliceTooltip = (slice: SliceTooltipProps['slice']) => {
             <div>{point.serieId}</div>
             <div
               style={{ backgroundColor: point.serieColor }}
-              className={atoms({
+              className={sprinkles({
                 fontWeight: 'semibold',
                 color: {
                   light: 'white',
