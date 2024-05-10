@@ -1,15 +1,15 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {
-    "verbatimModuleSyntax": true,
-    "baseUrl": ".",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@db/*": ["src/db/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"],
-    },
-    "types": ["vitest/globals"]
-  },
+	"extends": "astro/tsconfigs/strict",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["src/components/*"],
+			"@db/*": ["src/db/*"],
+			"@layouts/*": ["src/layouts/*"],
+			"@styles/*": ["src/styles/*"],
+			"@utils/*": ["src/utils/*"]
+		},
+		"types": ["vitest/globals"],
+		"verbatimModuleSyntax": true
+	}
 }

@@ -18,7 +18,7 @@ const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME
 
 if (!TURSO_DATABASE_URL || !TURSO_AUTH_TOKEN || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME)
-  throw new Error('Missing environment variables')
+	throw new Error('Missing environment variables')
 
 const GITHUB_QUERY = `
 query {
@@ -38,224 +38,224 @@ query {
 `
 
 interface GitHubResponse {
-  data: {
-    search: {
-      nodes: {
-        stargazers: {
-          totalCount: number
-        }
-        forkCount: number
-        name: string
-        id: string
-      }[]
-    }
-  }
+	data: {
+		search: {
+			nodes: {
+				stargazers: {
+					totalCount: number
+				}
+				forkCount: number
+				name: string
+				id: string
+			}[]
+		}
+	}
 }
 
 interface TraktResponse {
-  movies: {
-    plays: number
-    watched: number
-    minutes: number
-    collected: number
-    ratings: number
-    comments: number
-  }
-  shows: {
-    watched: number
-    collected: number
-    ratings: number
-    comments: number
-  }
-  seasons: {
-    ratings: number
-    comments: number
-  }
-  episodes: {
-    plays: number
-    watched: number
-    minutes: number
-    collected: number
-    ratings: number
-    comments: number
-  }
-  network: {
-    friends: number
-    followers: number
-    following: number
-  }
-  ratings: {
-    total: number
-    distribution: {
-      '1': number
-      '2': number
-      '3': number
-      '4': number
-      '5': number
-      '6': number
-      '7': number
-      '8': number
-      '9': number
-      '10': number
-    }
-  }
+	movies: {
+		plays: number
+		watched: number
+		minutes: number
+		collected: number
+		ratings: number
+		comments: number
+	}
+	shows: {
+		watched: number
+		collected: number
+		ratings: number
+		comments: number
+	}
+	seasons: {
+		ratings: number
+		comments: number
+	}
+	episodes: {
+		plays: number
+		watched: number
+		minutes: number
+		collected: number
+		ratings: number
+		comments: number
+	}
+	network: {
+		friends: number
+		followers: number
+		following: number
+	}
+	ratings: {
+		total: number
+		distribution: {
+			1: number
+			2: number
+			3: number
+			4: number
+			5: number
+			6: number
+			7: number
+			8: number
+			9: number
+			10: number
+		}
+	}
 }
 
 const client = createClient({
-  url: TURSO_DATABASE_URL,
-  authToken: TURSO_AUTH_TOKEN,
+	url: TURSO_DATABASE_URL,
+	authToken: TURSO_AUTH_TOKEN,
 })
 
 const db = drizzle(client)
 
 const masto = createRestAPIClient({
-  url: 'https://mastodon.social',
-  accessToken: MASTODON_ACCESS_TOKEN,
+	url: 'https://mastodon.social',
+	accessToken: MASTODON_ACCESS_TOKEN,
 })
 
 async function fetchGithubData() {
-  try {
-    core.info('Fetching GitHub Data')
-    const res: GitHubResponse = await ky(GITHUB_GRAPHQL_API, {
-      method: 'POST',
-      headers: {
-        Authorization: `bearer ${GITHUB_TOKEN}`,
-      },
-      json: {
-        query: GITHUB_QUERY,
-      },
-    }).json()
-    core.info('Successfully fetched Github Data')
+	try {
+		core.info('Fetching GitHub Data')
+		const res: GitHubResponse = await ky(GITHUB_GRAPHQL_API, {
+			method: 'POST',
+			headers: {
+				Authorization: `bearer ${GITHUB_TOKEN}`,
+			},
+			json: {
+				query: GITHUB_QUERY,
+			},
+		}).json()
+		core.info('Successfully fetched Github Data')
 
-    return res
-  }
-  catch (err) {
-    core.warning(`[fetchGithubData]: ${err}`)
+		return res
+	}
+	catch (err) {
+		core.warning(`[fetchGithubData]: ${err}`)
 
-    return undefined
-  }
+		return undefined
+	}
 }
 
 async function fetchMastodonData() {
-  try {
-    core.info('Fetching Mastodon Data')
-    const res = await masto.v2.search.list({
-      accountId: MASTODON_ACCOUNT_ID,
-      q: 'lekoarts',
-      type: 'accounts',
-    })
-    core.info('Successfully fetched Mastodon Data')
+	try {
+		core.info('Fetching Mastodon Data')
+		const res = await masto.v2.search.list({
+			accountId: MASTODON_ACCOUNT_ID,
+			q: 'lekoarts',
+			type: 'accounts',
+		})
+		core.info('Successfully fetched Mastodon Data')
 
-    return {
-      followersCount: res.accounts[0].followersCount,
-      tootsCount: res.accounts[0].statusesCount,
-    }
-  }
-  catch (err) {
-    core.warning(`[fetchMastodonData]: ${err}`)
+		return {
+			followersCount: res.accounts[0].followersCount,
+			tootsCount: res.accounts[0].statusesCount,
+		}
+	}
+	catch (err) {
+		core.warning(`[fetchMastodonData]: ${err}`)
 
-    return undefined
-  }
+		return undefined
+	}
 }
 
 async function fetchTraktData() {
-  try {
-    core.info('Fetching Trakt Data')
-    const res: TraktResponse = await ky(`${TRAKT_API}/users/${TRAKT_USERNAME}/stats`, {
-      method: 'GET',
-      headers: {
-        'user-agent': 'trakt-yearly-posters',
-        'Content-type': 'application/json',
-        'trakt-api-key': TRAKT_CLIENT_ID,
-        'trakt-api-version': '2',
-      },
-    }).json()
-    core.info('Successfully fetched Trakt Data')
+	try {
+		core.info('Fetching Trakt Data')
+		const res: TraktResponse = await ky(`${TRAKT_API}/users/${TRAKT_USERNAME}/stats`, {
+			method: 'GET',
+			headers: {
+				'user-agent': 'trakt-yearly-posters',
+				'Content-type': 'application/json',
+				'trakt-api-key': TRAKT_CLIENT_ID,
+				'trakt-api-version': '2',
+			},
+		}).json()
+		core.info('Successfully fetched Trakt Data')
 
-    return {
-      moviesWatched: res.movies.watched,
-      showsWatched: res.shows.watched,
-      episodesWatched: res.episodes.watched,
-      ratings: res.ratings.total,
-    }
-  }
-  catch (err) {
-    core.warning(`[fetchTraktData]: ${err}`)
+		return {
+			moviesWatched: res.movies.watched,
+			showsWatched: res.shows.watched,
+			episodesWatched: res.episodes.watched,
+			ratings: res.ratings.total,
+		}
+	}
+	catch (err) {
+		core.warning(`[fetchTraktData]: ${err}`)
 
-    return undefined
-  }
+		return undefined
+	}
 }
 
 async function run() {
-  core.info('Starting with the action...')
+	core.info('Starting with the action...')
 
-  const github = await fetchGithubData()
-  const mastodon = await fetchMastodonData()
-  const trakt = await fetchTraktData()
-  const now = new Date().toISOString().replace('T', ' ').replace('Z', '+00')
+	const github = await fetchGithubData()
+	const mastodon = await fetchMastodonData()
+	const trakt = await fetchTraktData()
+	const now = new Date().toISOString().replace('T', ' ').replace('Z', '+00')
 
-  let GITHUB_INPUT: InsertGithub[] | undefined
-  let MASTODON_INPUT: InsertMastodon | undefined
-  let TRAKT_INPUT: InsertTrakt | undefined
+	let GITHUB_INPUT: InsertGithub[] | undefined
+	let MASTODON_INPUT: InsertMastodon | undefined
+	let TRAKT_INPUT: InsertTrakt | undefined
 
-  if (github) {
-    GITHUB_INPUT = github.data.search.nodes.map(repo => ({
-      createdAt: now,
-      forks: repo.forkCount,
-      name: repo.name,
-      stars: repo.stargazers.totalCount,
-    } satisfies InsertGithub))
-  }
+	if (github) {
+		GITHUB_INPUT = github.data.search.nodes.map(repo => ({
+			createdAt: now,
+			forks: repo.forkCount,
+			name: repo.name,
+			stars: repo.stargazers.totalCount,
+		} satisfies InsertGithub))
+	}
 
-  if (mastodon) {
-    MASTODON_INPUT = {
-      createdAt: now,
-      followersCount: mastodon.followersCount,
-      tootsCount: mastodon.tootsCount,
-    } satisfies InsertMastodon
-  }
+	if (mastodon) {
+		MASTODON_INPUT = {
+			createdAt: now,
+			followersCount: mastodon.followersCount,
+			tootsCount: mastodon.tootsCount,
+		} satisfies InsertMastodon
+	}
 
-  if (trakt) {
-    TRAKT_INPUT = {
-      createdAt: now,
-      moviesWatched: trakt.moviesWatched,
-      showsWatched: trakt.showsWatched,
-      episodesWatched: trakt.episodesWatched,
-      ratings: trakt.ratings,
-    } satisfies InsertTrakt
-  }
+	if (trakt) {
+		TRAKT_INPUT = {
+			createdAt: now,
+			moviesWatched: trakt.moviesWatched,
+			showsWatched: trakt.showsWatched,
+			episodesWatched: trakt.episodesWatched,
+			ratings: trakt.ratings,
+		} satisfies InsertTrakt
+	}
 
-  if (GITHUB_INPUT) {
-    core.info('Pushing GitHub data to Turso')
-    try {
-      await db.insert(githubTable).values(GITHUB_INPUT)
-    }
-    catch (e) {
-      core.setFailed(`[githubInsert]: ${e}`)
-    }
-  }
+	if (GITHUB_INPUT) {
+		core.info('Pushing GitHub data to Turso')
+		try {
+			await db.insert(githubTable).values(GITHUB_INPUT)
+		}
+		catch (e) {
+			core.setFailed(`[githubInsert]: ${e}`)
+		}
+	}
 
-  if (MASTODON_INPUT) {
-    core.info('Pushing Mastodon data to Turso')
-    try {
-      await db.insert(mastodonTable).values(MASTODON_INPUT)
-    }
-    catch (e) {
-      core.setFailed(`[mastodonInsert]: ${e}`)
-    }
-  }
+	if (MASTODON_INPUT) {
+		core.info('Pushing Mastodon data to Turso')
+		try {
+			await db.insert(mastodonTable).values(MASTODON_INPUT)
+		}
+		catch (e) {
+			core.setFailed(`[mastodonInsert]: ${e}`)
+		}
+	}
 
-  if (TRAKT_INPUT) {
-    core.info('Pushing Trakt data to Turso')
-    try {
-      await db.insert(traktTable).values(TRAKT_INPUT)
-    }
-    catch (e) {
-      core.setFailed(`[traktInsert]: ${e}`)
-    }
-  }
+	if (TRAKT_INPUT) {
+		core.info('Pushing Trakt data to Turso')
+		try {
+			await db.insert(traktTable).values(TRAKT_INPUT)
+		}
+		catch (e) {
+			core.setFailed(`[traktInsert]: ${e}`)
+		}
+	}
 
-  core.info('Done 🎉')
+	core.info('Done 🎉')
 }
 
 run()
