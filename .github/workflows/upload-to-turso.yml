@@ -21,3 +21,4 @@ jobs:
           TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
           MASTODON_ACCOUNT_ID: ${{ vars.MASTODON_ACCOUNT_ID }}
           TRAKT_USERNAME: ${{ vars.TRAKT_USERNAME }}
+          BLUESKY_HANDLE: ${{ vars.BLUESKY_HANDLE }}
