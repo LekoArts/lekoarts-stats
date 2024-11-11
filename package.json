@@ -15,7 +15,10 @@
 		"lint:fix": "pnpm lint --fix",
 		"test": "vitest run",
 		"test:watch": "vitest watch",
-		"db:insert": "tsx scripts/db-insert.ts"
+		"db:insert": "tsx scripts/db-insert.ts",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"@actions/core": "^1.11.1",

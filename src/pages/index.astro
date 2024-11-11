@@ -8,15 +8,15 @@ import {
 	nivoTraktFormatter,
 	nivoGithubFormatter,
 	nivoMastodonFormatter,
-	nivoTwitterFormatter,
+	nivoBlueskyFormatter,
 	normalizeGithub,
 } from '@utils/normalize'
 import Line from '@components/line'
 import { db } from '@db/db'
-import { traktTable, twitterTable, githubTable, mastodonTable } from '@db/schema'
+import { traktTable, blueskyTable, githubTable, mastodonTable } from '@db/schema'
 
 const trakt = await db.select().from(traktTable).orderBy(traktTable.createdAt)
-const twitter = await db.select().from(twitterTable).orderBy(twitterTable.createdAt)
+const bluesky = await db.select().from(blueskyTable).orderBy(blueskyTable.createdAt)
 const github = await db.select().from(githubTable).orderBy(githubTable.createdAt)
 const mastodon = await db.select().from(mastodonTable).orderBy(mastodonTable.createdAt)
 
@@ -35,8 +35,8 @@ const githubContent = [
 
 const socialMediaContent = [
 	{
-		heading: 'Twitter',
-		data: nivoTwitterFormatter(twitter),
+		heading: 'Bluesky',
+		data: nivoBlueskyFormatter(bluesky),
 	},
 	{
 		heading: 'Mastodon',

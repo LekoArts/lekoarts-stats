@@ -1,4 +1,5 @@
-import { formatCreatedAt, nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
+import { formatCreatedAt, nivoBlueskyFormatter, nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
+import { data as blueskyData } from './__fixtures__/bluesky'
 import { data as githubData } from './__fixtures__/github'
 import { data as mastodonData } from './__fixtures__/mastodon'
 import { data as traktData } from './__fixtures__/trakt'
@@ -141,6 +142,35 @@ describe('nivoTraktFormatter', () => {
 					},
 				],
 				id: 'moviesWatched',
+			},
+		]
+
+		expect(nivo).toMatchSnapshot()
+		expect(nivo).toEqual(expect.arrayContaining(objectShape))
+	})
+})
+
+describe('nivoBlueskyFormatter', () => {
+	it('should output correct shape via input', () => {
+		const nivo = nivoBlueskyFormatter(blueskyData)
+
+		const objectShape = [
+			{
+				data: [
+					{
+						x: '2020-07-16',
+						y: 1126,
+					},
+					{
+						x: '2020-07-17',
+						y: 1137,
+					},
+					{
+						x: '2020-07-18',
+						y: 1150,
+					},
+				],
+				id: 'followers',
 			},
 		]
 

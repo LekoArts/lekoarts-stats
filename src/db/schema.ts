@@ -20,6 +20,15 @@ export const mastodonTable = sqliteTable('mastodon', {
 	tootsCount: integer('toots_count').notNull(),
 })
 
+export const blueskyTable = sqliteTable('bluesky', {
+	id: integer('id').primaryKey(),
+	createdAt: text('created_at')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	followersCount: integer('followers_count').notNull(),
+	postsCount: integer('posts_count').notNull(),
+})
+
 export const traktTable = sqliteTable('trakt', {
 	id: integer('id').primaryKey(),
 	createdAt: text('created_at')
@@ -45,6 +54,9 @@ export type SelectGithub = typeof githubTable.$inferSelect
 
 export type InsertMastodon = typeof mastodonTable.$inferInsert
 export type SelectMastodon = typeof mastodonTable.$inferSelect
+
+export type InsertBluesky = typeof blueskyTable.$inferInsert
+export type SelectBluesky = typeof blueskyTable.$inferSelect
 
 export type InsertTrakt = typeof traktTable.$inferInsert
 export type SelectTrakt = typeof traktTable.$inferSelect

@@ -1,13 +1,20 @@
 {
-	"version": "6",
-	"dialect": "sqlite",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "6",
-			"when": 1715270038648,
-			"tag": "0000_broad_marvel_boy",
-			"breakpoints": true
-		}
-	]
+  "version": "6",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1715270038648,
+      "tag": "0000_broad_marvel_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1731338118546,
+      "tag": "0001_colossal_thaddeus_ross",
+      "breakpoints": true
+    }
+  ]
 }

@@ -94,7 +94,7 @@ export function nivoMastodonFormatter(data: IMastodonEntry[]) {
 		x: formatCreatedAt(e.createdAt),
 		y: e.followersCount,
 	}))
-	const tweetsValues = data.map(e => ({
+	const tootsValues = data.map(e => ({
 		x: formatCreatedAt(e.createdAt),
 		y: e.tootsCount,
 	}))
@@ -106,7 +106,36 @@ export function nivoMastodonFormatter(data: IMastodonEntry[]) {
 		},
 		{
 			id: 'toots',
-			data: tweetsValues,
+			data: tootsValues,
+		},
+	]
+}
+
+interface IBlueskyEntry {
+	id: number
+	createdAt: string
+	followersCount: number
+	postsCount: number
+}
+
+export function nivoBlueskyFormatter(data: IBlueskyEntry[]) {
+	const followersValues = data.map(e => ({
+		x: formatCreatedAt(e.createdAt),
+		y: e.followersCount,
+	}))
+	const postsValues = data.map(e => ({
+		x: formatCreatedAt(e.createdAt),
+		y: e.postsCount,
+	}))
+
+	return [
+		{
+			id: 'followers',
+			data: followersValues,
+		},
+		{
+			id: 'posts',
+			data: postsValues,
 		},
 	]
 }

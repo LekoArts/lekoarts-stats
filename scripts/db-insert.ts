@@ -1,6 +1,6 @@
-import type { InsertGithub, InsertMastodon, InsertTrakt } from '@db/schema'
+import type { InsertBluesky, InsertGithub, InsertMastodon, InsertTrakt } from '@db/schema'
 import * as core from '@actions/core'
-import { githubTable, mastodonTable, traktTable } from '@db/schema'
+import { blueskyTable, githubTable, mastodonTable, traktTable } from '@db/schema'
 import { createClient } from '@libsql/client/web'
 import { drizzle } from 'drizzle-orm/libsql'
 import ky from 'ky'
@@ -16,8 +16,9 @@ const MASTODON_ACCESS_TOKEN = process.env.MASTODON_ACCESS_TOKEN
 const MASTODON_ACCOUNT_ID = process.env.MASTODON_ACCOUNT_ID
 const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME
+const BLUESKY_HANDLE = process.env.BLUESKY_HANDLE
 
-if (!TURSO_DATABASE_URL || !TURSO_AUTH_TOKEN || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME)
+if (!TURSO_DATABASE_URL || !TURSO_AUTH_TOKEN || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME || !BLUESKY_HANDLE)
 	throw new Error('Missing environment variables')
 
 const GITHUB_QUERY = `
@@ -101,6 +102,13 @@ interface TraktResponse {
 	}
 }
 
+interface BlueskyResponse {
+	did: string
+	handle: string
+	followersCount: number
+	postsCount: number
+}
+
 const client = createClient({
 	url: TURSO_DATABASE_URL,
 	authToken: TURSO_AUTH_TOKEN,
@@ -158,6 +166,24 @@ async function fetchMastodonData() {
 	}
 }
 
+async function fetchBlueskyData() {
+	try {
+		core.info('Fetching Bluesky Data')
+		const res: BlueskyResponse = await ky(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${BLUESKY_HANDLE}`).json()
+		core.info('Successfully fetched Bluesky Data')
+
+		return {
+			followersCount: res.followersCount,
+			postsCount: res.postsCount,
+		}
+	}
+	catch (err) {
+		core.warning(`[fetchBlueskyData]: ${err}`)
+
+		return undefined
+	}
+}
+
 async function fetchTraktData() {
 	try {
 		core.info('Fetching Trakt Data')
@@ -192,11 +218,13 @@ async function run() {
 	const github = await fetchGithubData()
 	const mastodon = await fetchMastodonData()
 	const trakt = await fetchTraktData()
+	const bluesky = await fetchBlueskyData()
 	const now = new Date().toISOString().replace('T', ' ').replace('Z', '+00')
 
 	let GITHUB_INPUT: InsertGithub[] | undefined
 	let MASTODON_INPUT: InsertMastodon | undefined
 	let TRAKT_INPUT: InsertTrakt | undefined
+	let BLUESKY_INPUT: InsertBluesky | undefined
 
 	if (github) {
 		GITHUB_INPUT = github.data.search.nodes.map(repo => ({
@@ -223,6 +251,14 @@ async function run() {
 			episodesWatched: trakt.episodesWatched,
 			ratings: trakt.ratings,
 		} satisfies InsertTrakt
+	}
+
+	if (bluesky) {
+		BLUESKY_INPUT = {
+			createdAt: now,
+			followersCount: bluesky.followersCount,
+			postsCount: bluesky.postsCount,
+		} satisfies InsertBluesky
 	}
 
 	if (GITHUB_INPUT) {
@@ -252,6 +288,16 @@ async function run() {
 		}
 		catch (e) {
 			core.setFailed(`[traktInsert]: ${e}`)
+		}
+	}
+
+	if (BLUESKY_INPUT) {
+		core.info('Pushing Bluesky data to Turso')
+		try {
+			await db.insert(blueskyTable).values(BLUESKY_INPUT)
+		}
+		catch (e) {
+			core.setFailed(`[blueskyInsert]: ${e}`)
 		}
 	}
 
