@@ -1,8 +1,8 @@
 import { formatCreatedAt, nivoGithubFormatter, nivoMastodonFormatter, nivoTraktFormatter, nivoTwitterFormatter, normalizeGithub } from '../normalize'
 import { data as githubData } from './__fixtures__/github'
-import { data as twitterData } from './__fixtures__/twitter'
 import { data as mastodonData } from './__fixtures__/mastodon'
 import { data as traktData } from './__fixtures__/trakt'
+import { data as twitterData } from './__fixtures__/twitter'
 
 describe('formatCreatedAt', () => {
 	it('should format db date', () => {

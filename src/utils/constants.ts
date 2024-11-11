@@ -14,7 +14,7 @@ export const siteMetadata = {
 	url: 'https://stats.lekoarts.de',
 	repo: 'https://github.com/LekoArts/lekoarts-stats',
 	github: 'https://www.github.com/LekoArts',
-	twitter: 'https://www.twitter.com/lekoarts_de',
+	bluesky: 'https://bsky.app/profile/lekoarts.de',
 	mastodon: 'https://mastodon.social/@lekoarts',
 	trakt: 'https://trakt.tv/users/arsaurea',
 	homepage: 'https://www.lekoarts.de?utm_source=lekoarts-stats',

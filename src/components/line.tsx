@@ -1,8 +1,8 @@
-import * as React from 'react'
 import type { Serie } from '@nivo/line'
 import { ResponsiveLine } from '@nivo/line'
-import { sliceTooltip } from '@utils/nivo'
 import { nivoCommonProperties } from '@utils/constants'
+import { sliceTooltip } from '@utils/nivo'
+import * as React from 'react'
 
 interface ILineProps {
 	data: Serie[]

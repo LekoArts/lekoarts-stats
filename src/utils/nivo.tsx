@@ -1,7 +1,7 @@
-import * as React from 'react'
 import type { SliceTooltipProps } from '@nivo/line'
-import { sprinkles } from '@styles/sprinkles.css'
 import * as styles from '@styles/nivo.css'
+import { sprinkles } from '@styles/sprinkles.css'
+import * as React from 'react'
 
 export function sliceTooltip(slice: SliceTooltipProps['slice']) {
 	return (
