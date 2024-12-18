@@ -19,7 +19,7 @@ function Line({ data, yScaleMin = 0, yScaleMax = 'auto' }: ILineProps) {
 			lineWidth={2}
 			enablePoints={false}
 			theme={{
-				textColor: 'var(--chart-text-color, #333333)',
+				text: { fill: 'var(--chart-text-color, #333333)' },
 				crosshair: { line: { stroke: 'var(--chart-crosshair-color, #333333)' } },
 				axis: {
 					domain: { line: { stroke: 'var(--chart-axis-color, #777777)' } },
