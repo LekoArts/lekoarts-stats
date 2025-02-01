@@ -10,4 +10,7 @@ export default defineConfig({
 	integrations: [
 		react(),
 	],
+	devToolbar: {
+		enabled: false,
+	},
 })
