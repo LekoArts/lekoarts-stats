@@ -8,6 +8,7 @@ export default antfu({
 		indent: 'tab',
 		quotes: 'single',
 	},
+	ignores: ['src/db/migrations'],
 }, {
 	rules: {
 		'node/prefer-global/process': 'off',
