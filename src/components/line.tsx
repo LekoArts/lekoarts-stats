@@ -1,11 +1,11 @@
-import type { Serie } from '@nivo/line'
+import type { LineSeries } from '@nivo/line'
 import { ResponsiveLine } from '@nivo/line'
 import { nivoCommonProperties } from '@utils/constants'
 import { sliceTooltip } from '@utils/nivo'
 import * as React from 'react'
 
 interface ILineProps {
-	data: Serie[]
+	data: LineSeries[]
 	yScaleMin?: number | 'auto'
 	yScaleMax?: number | 'auto'
 }
