@@ -18,6 +18,8 @@ const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME
 const BLUESKY_HANDLE = process.env.BLUESKY_HANDLE
 
+const IS_SMOKE_TEST = process.env.SMOKE === 'true'
+
 if (!TURSO_DATABASE_URL || !TURSO_AUTH_TOKEN || !GITHUB_TOKEN || !MASTODON_ACCESS_TOKEN || !MASTODON_ACCOUNT_ID || !TRAKT_CLIENT_ID || !TRAKT_USERNAME || !BLUESKY_HANDLE)
 	throw new Error('Missing environment variables')
 
@@ -259,6 +261,14 @@ async function run() {
 			followersCount: bluesky.followersCount,
 			postsCount: bluesky.postsCount,
 		} satisfies InsertBluesky
+	}
+
+	if (IS_SMOKE_TEST) {
+		core.info('Running in test mode, skipping data insertion')
+
+		console.log({ GITHUB_INPUT, MASTODON_INPUT, TRAKT_INPUT, BLUESKY_INPUT })
+
+		return
 	}
 
 	if (GITHUB_INPUT) {
