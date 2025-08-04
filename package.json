@@ -34,7 +34,7 @@
 		"astro": "^5.12.8",
 		"astro-themes": "^0.2.7",
 		"dotenv": "^17.2.1",
-		"drizzle-orm": "^0.39.3",
+		"drizzle-orm": "^0.44.4",
 		"ky": "^1.8.2",
 		"lodash-es": "^4.17.21",
 		"masto": "^7.2.0",
